@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getUserByUsername } = require('../helper/loginHelper');
+const { checkPassword } = require('../helper/loginHelper');
 
 
 module.exports = db => {
@@ -11,25 +11,25 @@ module.exports = db => {
   });
 
   router.post('/', (req, res) => {
-    const signin = (request, response) => {
-      const userReq = request.body
-      let user
+    console.log("Started");
+    let user = null;
+      const { email, password } = req.body
+      const query = {
+        text: "SELECT email, password FROM users WHERE email = $1;",
+        values: [email]
+      };
     
-      findUser(userReq)
-        .then(foundUser => {
-          user = foundUser
-          return checkPassword(userReq.password, foundUser)
-        })
-        .then((res) => createToken())
-        .then(() => {
-          delete user.password_digest
-          response.status(200).json(user)
-        })
-        .catch((err) => console.error(err))
-    }
-    
-    
-
+      return db.query(query)
+        .then(result => 
+          {
+             user = result[0];
+            if(checkPassword(password, user)) {
+              res.json(user)
+            }else{
+              res.json(null)
+            }
+          })
+        .catch(err => console.log(err));
   });
 
   return router;

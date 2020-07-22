@@ -8,6 +8,5 @@ CREATE TABLE users (
   phoneNumber VARCHAR(255) NOT NULL,
   email VARCHAR(50) NOT NULL,
   type CHAR(50) NOT NULL,
-  username VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL
 );
