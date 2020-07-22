@@ -1,24 +1,29 @@
 import React from 'react';
-import useApplicationData from './hooks/useApplicationData';
+import Login from './screens/Login';
+import {
+  BrowserRouter as Router, Switch, Route,
+  Link
+} from 'react-router-dom';
+import Nav from './components/Nav'
 import './App.css';
 
 function App() {
-  
-  const {state, setState}  = useApplicationData();
-
-  
-const userList = state.users.map(user => <li>{user.name} {user.email}</li>)
-
   return (
     <>
-    <h1>Users</h1>
+      <Router>
+        <Nav />
 
-    <ul>
-      {userList}
-    </ul>
-
+        <Switch>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/">
+            <div></div>
+          </Route>
+        </Switch>
+      </Router>
     </>
-    );
+  );
 }
 
 export default App;

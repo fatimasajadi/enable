@@ -1,0 +1,31 @@
+.nav {
+  background-color: white;
+  height: 160px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: auto;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+img {
+  max-height: 66px;
+  max-width: 190px;
+  height: auto;
+  width: auto;
+  margin: 25px;
+}
+
+.button {
+  display: flex;
+  flex-direction: row;
+  padding: 30px;
+}
+
+.nav .btn {
+  width: 90px;
+  height: 40px;
+  margin: 10px;
+}
