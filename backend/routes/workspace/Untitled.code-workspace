@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "../../.."
+		},
+		{
+			"path": "../../../../w7/scheduler"
+		},
+		{
+			"path": "../../../../w7/scheduler-api"
+		},
+		{
+			"path": "../../../../w3/tinyApp"
+		}
+	],
+	"settings": {}
+}
