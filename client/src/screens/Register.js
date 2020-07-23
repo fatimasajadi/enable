@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Register.css';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
@@ -11,11 +12,20 @@ function Register() {
   const [lastName, setLastName] = useState('');
   const [address, setAddress] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [select, setSelect] = useState('');
+  const [type, setType] = useState('');
+
 
   function submit() {
-    //Ajax to API
+    axios
+      .post('/api/register', { firstName, lastName, email, password, address, phoneNumber, type })
+      .then(result => {
+        console.log(result.data)
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
+
 
   return (
     <div className="registerContainer">
@@ -34,7 +44,7 @@ function Register() {
         </FormGroup>
         <FormGroup>
           <Label for="select">Select</Label>
-          <Input type="select" name="select" id="select" value={select} onChange={(e) => setSelect(e.target.value)} >
+          <Input type="select" name="select" id="select" value={type} onChange={(e) => setType(e.target.value)} >
             <option>Support Worker</option>
             <option>Disable Person</option>
           </Input>
@@ -55,7 +65,7 @@ function Register() {
           <Label for="confirmPassword">Confirm Password</Label>
           <Input type="confirmPassword" name="confirmPassword" placeholder="Confirm password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
         </FormGroup>
-        <Button outline color="primary">Register</Button>
+        <Button outline color="primary" onClick={submit}>Register</Button>
       </Form>
     </div>
 

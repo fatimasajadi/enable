@@ -13,9 +13,7 @@ function Nav() {
           <Button outline color="primary" tag={Link} to="/login">Login</Button>
           <Button outline color="primary" tag={Link} to="/register">Register</Button>
         </div>
-
       </div>
-
     </>
   );
 }
