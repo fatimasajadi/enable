@@ -1,0 +1,65 @@
+import React, { useState } from 'react';
+import './Register.css';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+
+
+function Register() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [address, setAddress] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [select, setSelect] = useState('');
+
+  function submit() {
+    //Ajax to API
+  }
+
+  return (
+    <div className="registerContainer">
+      <Form>
+        <FormGroup>
+          <Label for="firstName">First Name</Label>
+          <Input type="firstName" name="firstName" placeholder="First name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+        </FormGroup>
+        <FormGroup>
+          <Label for="lastName">Last Name</Label>
+          <Input type="lastName" name="lastName" placeholder="Last name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+        </FormGroup>
+        <FormGroup>
+          <Label for="email">Email</Label>
+          <Input type="email" name="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        </FormGroup>
+        <FormGroup>
+          <Label for="select">Select</Label>
+          <Input type="select" name="select" id="select" value={select} onChange={(e) => setSelect(e.target.value)} >
+            <option>Support Worker</option>
+            <option>Disable Person</option>
+          </Input>
+        </FormGroup>
+        <FormGroup>
+          <Label for="phoneNumber">Phone Number</Label>
+          <Input type="phoneNumber" name="phoneNumber" placeholder="Phone number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+        </FormGroup>
+        <FormGroup>
+          <Label for="address">Address</Label>
+          <Input type="address" name="address" placeholder="Address" value={address} onChange={(e) => setAddress(e.target.value)} />
+        </FormGroup>
+        <FormGroup>
+          <Label for="password">Password</Label>
+          <Input type="password" name="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        </FormGroup>
+        <FormGroup>
+          <Label for="confirmPassword">Confirm Password</Label>
+          <Input type="confirmPassword" name="confirmPassword" placeholder="Confirm password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+        </FormGroup>
+        <Button outline color="primary">Register</Button>
+      </Form>
+    </div>
+
+  );
+}
+
+export default Register;

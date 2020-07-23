@@ -11,7 +11,7 @@ function Nav() {
         <img src={Logo} alt='logo' />
         <div className='button'>
           <Button outline color="primary" tag={Link} to="/login">Login</Button>
-          <Button outline color="primary">Sign Up</Button>
+          <Button outline color="primary" tag={Link} to="/register">Register</Button>
         </div>
 
       </div>
