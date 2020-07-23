@@ -1,13 +1,14 @@
 .nav {
   background-color: white;
-  height: 160px;
+  height: var(--navbar-height);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: auto;
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
+  position: sticky;
+  top: 0;
+  box-shadow: 0 2px 5px #00000010;
+
+  /* border-radius: 10px; */
 }
 
 .nav img {

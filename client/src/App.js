@@ -21,6 +21,7 @@ function App() {
             <Register />
           </Route>
           <Route path="/">
+
             <div className="backgroundImage">
               <h2 className="textOnBg">ENABLE brings people together</h2>
               <p className="pOnBg">We create meaningful partnerships between people with disabilities and support workers based on shared interests</p>
