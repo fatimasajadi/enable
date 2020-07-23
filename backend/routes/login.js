@@ -19,15 +19,21 @@ module.exports = db => {
         values: [email]
       };
     
-      return db.query(query)
+       db.query(query)
         .then(result => 
           {
-             user = result[0];
-            if(checkPassword(password, user)) {
-              res.json(user)
-            }else{
-              res.json(null)
-            }
+            console.log(result)
+            user = result[0];
+             checkPassword(password, user)
+             .then(result => {
+               if(result){
+                 res.json({user})
+               }else{
+                 res.json({error: "UserName or Password Incorrect"})
+               }
+             })
+             .catch(err => console.log(err));
+
           })
         .catch(err => console.log(err));
   });
