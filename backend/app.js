@@ -24,8 +24,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter(db));
 app.use('/users', usersRouter(db));
-app.use('/register', usersRegister(db));
-app.use('/login', usersLogin(db));
+app.use('/api/register', usersRegister(db));
+app.use('/api/login', usersLogin(db));
 
 
 // catch 404 and forward to error handler
