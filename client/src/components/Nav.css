@@ -10,7 +10,7 @@
   border-radius: 10px;
 }
 
-img {
+.nav img {
   max-height: 66px;
   max-width: 190px;
   height: auto;
@@ -28,4 +28,14 @@ img {
   width: 90px;
   height: 40px;
   margin: 10px;
+}
+
+.navLink {
+  margin-right: 25px;
+  margin-top: 15px;
+  color: #333;
+}
+
+.navLink:hover {
+  text-decoration: none;
 }
