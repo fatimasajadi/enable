@@ -41,7 +41,7 @@
   background-image: url("/bg.jpg");
   background-size: contain;
   position: relative;
-  height: calc(100vh - 160px);
+  height: calc(100vh - var(--navbar-height));
   text-align: center;
   padding-top: 4em;
 }
