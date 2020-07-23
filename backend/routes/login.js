@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { checkPassword, createToken } = require('../helper/loginHelper');
+const { checkPassword } = require('../helper/loginHelper');
 
 
 module.exports = db => {
