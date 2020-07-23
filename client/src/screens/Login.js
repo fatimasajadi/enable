@@ -1,25 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useHistory } from "react-router-dom";
 import './Login.css';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import axios from 'axios';
+import { AuthContext } from '../components/AuthProvider';
 
-function Login() {
+function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const history = useHistory();
+  const auth = useContext(AuthContext);
 
-  function submit() {
+  function submit(event) {
+    event.preventDefault();
     axios
       .post('/api/login', { email, password })
       .then(result => {
-        console.log(result.data)
+        auth.setUser(result.data.user);
+        history.push('/worker-dashboard')
       })
       .catch(error => {
         console.log(error);
       });
   }
+
   return (
     <div className="loginContainer">
-      <Form>
+      <Form onSubmit={submit}>
         <FormGroup>
           <Label for="exampleEmail">Email</Label>
           <Input type="email" name="email" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -28,10 +35,9 @@ function Login() {
           <Label for="examplePassword">Password</Label>
           <Input type="password" name="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </FormGroup>
-        <Button outline color="primary" onClick={submit}>Login</Button>
+        <Button outline color="primary">Login</Button>
       </Form>
     </div>
   );
 }
-
 export default Login;

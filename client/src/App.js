@@ -7,29 +7,34 @@ import {
 } from 'react-router-dom';
 import Nav from './components/Nav'
 import './App.css';
+import AuthProvider from './components/AuthProvider';
 
 function App() {
   return (
     <>
-      <Router>
-        <Nav />
-        <Switch>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/register">
-            <Register />
-          </Route>
-          <Route path="/">
+      <AuthProvider>
+        <Router>
+          <Nav />
+          <Switch>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/register">
+              <Register />
+            </Route>
+            <Route path="/worker-dashboard">
 
-            <div className="backgroundImage">
-              <h2 className="textOnBg">ENABLE brings people together</h2>
-              <p className="pOnBg">We create meaningful partnerships between people with disabilities and support workers based on shared interests</p>
-            </div>
+            </Route>
+            <Route path="/">
+              <div className="backgroundImage">
+                <h2 className="textOnBg">ENABLE brings people together</h2>
+                <p className="pOnBg">We create meaningful partnerships between people with disabilities and support workers based on shared interests</p>
+              </div>
+            </Route>
 
-          </Route>
-        </Switch>
-      </Router>
+          </Switch>
+        </Router>
+      </AuthProvider>
     </>
   );
 }
