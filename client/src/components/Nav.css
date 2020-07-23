@@ -40,3 +40,9 @@
 .navLink:hover {
   text-decoration: none;
 }
+
+.navWelcome {
+  color: #228aff;
+  margin-right: 25px;
+  margin-top: 15px;
+}
