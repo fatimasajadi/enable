@@ -36,3 +36,25 @@
     transform: rotate(360deg);
   }
 }
+
+.backgroundImage {
+  background-image: url("/bg.jpg");
+  background-size: contain;
+  position: relative;
+  height: calc(100vh - 160px);
+  text-align: center;
+  padding-top: 4em;
+}
+
+.backgroundImage > h2 {
+  margin: 0;
+  margin-bottom: 1em;
+}
+
+.textOnBg {
+  margin-top: 50px;
+}
+
+.pOnBg {
+  font-size: 1.2em;
+}
