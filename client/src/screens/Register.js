@@ -3,7 +3,6 @@ import axios from 'axios';
 import './Register.css';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
-
 function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -13,7 +12,6 @@ function Register() {
   const [address, setAddress] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [type, setType] = useState('');
-
 
   function submit() {
     axios
@@ -25,7 +23,6 @@ function Register() {
         console.log(error);
       });
   }
-
 
   return (
     <div className="registerContainer">
@@ -68,7 +65,6 @@ function Register() {
         <Button outline color="primary" onClick={submit}>Register</Button>
       </Form>
     </div>
-
   );
 }
 

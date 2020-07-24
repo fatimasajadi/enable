@@ -1,0 +1,8 @@
+.avatar {
+  border-radius: 50%;
+  height: 80px;
+  width: 80px;
+  margin-top: 4em;
+  margin-left: 8em;
+  border: 1px #ccc solid;
+}
