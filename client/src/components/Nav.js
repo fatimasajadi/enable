@@ -16,6 +16,15 @@ function Nav() {
     <>
       <div className="nav">
         <Link to="/"><img src={Logo} alt='logo' /></Link>
+        {user && (
+          <>
+            <Link className="navDashboard" to="/worker-dashboard">  {user && `Home`}</Link>
+            <p className="navDashboard">  {user && `Pending requests`}</p>
+            <p className="navDashboard">  {user && `Previous sessions`}</p>
+            <Link className="navDashboard" to="/worker-availability"> {user && `Availability`}</Link>
+          </>
+        )
+        }
 
         <div className='button'>
 
