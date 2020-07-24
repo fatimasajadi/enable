@@ -7,8 +7,6 @@
   position: sticky;
   top: 0;
   box-shadow: 0 2px 5px #00000010;
-
-  /* border-radius: 10px; */
 }
 
 .nav img {
@@ -45,4 +43,12 @@
   color: #228aff;
   margin-right: 25px;
   margin-top: 15px;
+}
+.navDashboard {
+  color: #228aff;
+  margin-left: 0px;
+  margin-top: 45px;
+}
+.navDashboard:hover {
+  text-decoration: none;
 }

@@ -5,10 +5,11 @@ import {
   BrowserRouter as Router, Switch, Route,
   Link
 } from 'react-router-dom';
-import Nav from './components/Nav'
+import Nav from './components/Nav';
 import './App.css';
 import AuthProvider from './components/AuthProvider';
-
+import Calendar from './components/Calendar';
+import WorkerHome from './screens/WorkerHome'
 function App() {
   return (
     <>
@@ -22,7 +23,14 @@ function App() {
             <Route path="/register">
               <Register />
             </Route>
+            <Route path="/worker-availability">
+
+              <Calendar />
+
+            </Route>
             <Route path="/worker-dashboard">
+
+              <WorkerHome />
 
             </Route>
             <Route path="/">
