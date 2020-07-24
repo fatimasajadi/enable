@@ -4,6 +4,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const db = require('./db');
+const cookieSession = require('cookie-session');
+const bodyParser = require("body-parser");
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -21,12 +23,30 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({extended: true}));
+// app.use(session({
+//   'secret': '343ji43j4n3jn4jk3n'
+// }))
+
+// Encrypted cookies
+app.use(cookieSession({
+  name: 'session',
+  keys: ['f080ac7b-b838-4c5f-a1f4-b0a9fee10130', 'c3fb18be-448b-4f6e-a377-49373e9b7e1a']
+}));
+
+
+// creating a middleware
+// const currentUser =  (req, res, next) => {
+//   req.currentUser = users[req.session['user_id']];
+//   next();
+// };
+// app.use(currentUser);
+
 
 app.use('/', indexRouter(db));
 app.use('/users', usersRouter(db));
 app.use('/api/register', usersRegister(db));
 app.use('/api/login', usersLogin(db));
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -43,5 +63,10 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+//session handling
+app.use(function(req, res){
+  req.session['user_id'] = null;
+})
 
 module.exports = app;
