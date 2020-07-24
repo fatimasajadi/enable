@@ -1,12 +1,12 @@
 import React from 'react';
 import './WorkerHome.css';
-
+import ProfilePicture from '../images/profilePicture.PNG';
 
 function WorkerHome() {
-  
   return (
-    <h1>This is worker's home!</h1>
+    <img className='avatar' src={ProfilePicture}></img>
   );
 }
-export default  WorkerHome;
-  
+
+export default WorkerHome;
+
