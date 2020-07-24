@@ -16,7 +16,7 @@ module.exports = db => {
     let user = null;
     const { email, password } = req.body
     const query = {
-      text: "SELECT * FROM users WHERE email = $1;",
+      text: "SELECT email FROM users WHERE email = $1;",
       values: [email]
     };
 

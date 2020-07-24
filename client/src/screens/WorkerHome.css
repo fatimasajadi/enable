@@ -2,13 +2,29 @@
   border-radius: 50%;
   height: 80px;
   width: 80px;
-  margin-top: 4em;
-  margin-left: 8em;
+  margin: auto;
   border: 1px #ccc solid;
+  display: block;
 }
-.worker-home {
-  margin-left: 9em;
+
+.avatar-wrapper {
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: 500;
+  padding: 20px 0;
 }
-.worker-info {
-  margin-top: 3em;
+
+.worker-info-entry {
+  line-height: 2;
+}
+
+.worker-info-entry > i {
+  display: inline-block;
+  width: 30px;
+  text-align: center;
+  margin-right: 5px;
+}
+
+.worker-container {
+  margin-top: 2em;
 }

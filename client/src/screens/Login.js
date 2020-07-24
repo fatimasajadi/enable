@@ -16,9 +16,12 @@ function Login(props) {
     axios
       .post('/api/login', { email, password })
       .then(result => {
+
         auth.setUser(result.data.user);
         history.push('/worker-dashboard')
+
       })
+
       .catch(error => {
         console.log(error);
       });
