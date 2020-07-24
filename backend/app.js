@@ -66,7 +66,7 @@ app.use(function(err, req, res, next) {
 
 //session handling
 app.use(function(req, res){
-  req.session['user_id'] = null;
+  //req.session['user_id'] = null;
 })
 
 module.exports = app;

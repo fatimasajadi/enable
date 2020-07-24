@@ -29,7 +29,17 @@ module.exports = db => {
               if (result) {
                 //set Session
                 req.session['user_id'] = user['id']
-                res.json(req.session['user_id'])
+                let userObject = {
+                  id: user['id'],
+                  firstName: user['firstname'],
+                  lastName: user['lastname'],
+                  address: user['address'],
+                  phonenumber: user['phonenumber'],
+                  email: user['email'],
+                  type: user['type']
+                };
+                res.json(userObject)
+                //res.json(req.session['user_id'])
               } else {
                 res.json({ error: "Password Incorrect" })
               }
