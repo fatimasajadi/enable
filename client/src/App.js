@@ -11,6 +11,7 @@ import AuthProvider from './components/AuthProvider';
 import Calendar from './components/Calendar';
 import WorkerHome from './screens/WorkerHome';
 import PendingRequest from './components/PendingRequest';
+import PreviousSession from './components/PreviousSession';
 
 function App() {
   return (
@@ -32,6 +33,9 @@ function App() {
             </Route>
             <Route path="/pending-requests">
               <PendingRequest />
+            </Route>
+            <Route path="/previous-sessions">
+              <PreviousSession />
             </Route>
 
             <Route path="/worker-dashboard">

@@ -21,7 +21,7 @@ function Nav() {
           <>
             <Link className="navDashboard" to="/worker-dashboard">  {user && `Home`}</Link>
             <Link className="navDashboard" to="/pending-requests">  {user && `Pending requests`}</Link>
-            <p className="navDashboard">  {user && `Previous sessions`}</p>
+            <Link className="navDashboard" to="/previous-sessions">  {user && `Previous sessions`}</Link>
             <Link className="navDashboard" to="/worker-availability"> {user && `Availability`}</Link>
           </>
         )
