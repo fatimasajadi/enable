@@ -14,13 +14,13 @@ function WorkerHome() {
     <div className="container worker-container">
       <Col md={6}>
         <Card>
-          <CardHeader>Profile information</CardHeader>
+          <CardHeader>Profile Information</CardHeader>
           <CardBody>
             <div className="avatar-wrapper">
               <img className='avatar' src={ProfilePicture}></img>
 
               <div>
-                {auth.user.firstname} {auth.user.lastname}
+                {auth.user && auth.user.firstname} {auth.user && auth.user.lastname}
               </div>
             </div>
             <div className="worker-info-entry">
@@ -28,21 +28,21 @@ function WorkerHome() {
 
             <div className="worker-info-entry">
               <i class="fa fa-envelope-o" aria-hidden="true"></i>
-              <span>{auth.user.email}</span>
+              <span>{auth.user && auth.user.email}</span>
             </div>
 
             <div className="worker-info-entry">
               <i class="fa fa-address-card-o" aria-hidden="true"></i>
-              <span>{auth.user.address}</span>
+              <span>{auth.user && auth.user.address}</span>
             </div>
             <div className="worker-info-entry">
               <i class="fa fa-mobile" aria-hidden="true"></i>
-              <span>{auth.user.phonenumber}</span>
+              <span>{auth.user && auth.user.phonenumber}</span>
             </div>
 
             <p className='worker-info-entry'>
               <i class="fa fa-user" aria-hidden="true"></i>
-              <span>{auth.user.type}</span>
+              <span>{auth.user && auth.user.type}</span>
 
             </p>
           </CardBody>
