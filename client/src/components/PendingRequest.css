@@ -1,0 +1,40 @@
+.request-container {
+  margin: auto;
+  background-color: white;
+  padding: 30px;
+  height: 120px;
+  margin-top: 40px;
+  max-width: 1000px;
+  width: 100%;
+  box-shadow: 0 2px 5px #00000035;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.pending-req-pic {
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  margin-bottom: 0.5em;
+}
+.pending-req-button {
+  display: flex;
+  flex-direction: row;
+}
+.pending-req-button Button {
+  width: 90px;
+  height: 40px;
+  margin-right: 15px;
+}
+.star {
+  color: #fdcb6e;
+}
+.profile-pic-rating {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+.description-rate {
+  display: flex;
+  flex-direction: column;
+}
