@@ -1,8 +1,6 @@
 import React, { useContext } from 'react';
 import {
-  Card, Button, CardHeader, CardFooter, CardBody,
-  CardTitle, CardText,
-  Col
+  Card, CardHeader, CardBody, Col
 } from 'reactstrap';
 import './WorkerHome.css';
 import ProfilePicture from '../images/profilePicture.PNG';

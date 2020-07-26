@@ -17,7 +17,7 @@ function Login(props) {
       .post('/api/login', { email, password })
       .then(result => {
 
-        auth.setUser(result.data.user);
+        auth.setUser(result.data);
         history.push('/worker-dashboard')
 
       })

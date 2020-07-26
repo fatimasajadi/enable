@@ -7,6 +7,6 @@ CREATE TABLE users (
   address VARCHAR(255),
   phoneNumber VARCHAR(255) NOT NULL,
   email VARCHAR(50) NOT NULL,
-  type CHAR(50) NOT NULL,
+  type VARCHAR(50) NOT NULL,
   password VARCHAR(255) NOT NULL
 );
