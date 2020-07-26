@@ -10,8 +10,10 @@ import './App.css';
 import AuthProvider from './components/AuthProvider';
 import Calendar from './components/Calendar';
 import WorkerHome from './screens/WorkerHome';
+import FamilyHome from './screens/FamilyHome';
 import PendingRequest from './components/PendingRequest';
 import PreviousSession from './components/PreviousSession';
+import MyRequests from './screens/MyRequests';
 
 function App() {
   return (
@@ -34,12 +36,18 @@ function App() {
             <Route path="/pending-requests">
               <PendingRequest />
             </Route>
+            <Route path="/my-requests">
+              <MyRequests />
+            </Route>
             <Route path="/previous-sessions">
               <PreviousSession />
             </Route>
 
             <Route path="/worker-dashboard">
               <WorkerHome />
+            </Route>
+            <Route path="/family-dashboard">
+              <FamilyHome />
             </Route>
 
             <Route path="/">

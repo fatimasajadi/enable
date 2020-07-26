@@ -17,12 +17,21 @@ function Nav() {
     <>
       <div className="nav">
         <Link to="/"><img src={Logo} alt='logo' /></Link>
-        {user && (
+        {user && user.type === "Support Worker" && (
           <>
             <Link className="navDashboard" to="/worker-dashboard">  {user && `Home`}</Link>
             <Link className="navDashboard" to="/pending-requests">  {user && `Pending requests`}</Link>
             <Link className="navDashboard" to="/previous-sessions">  {user && `Previous sessions`}</Link>
             <Link className="navDashboard" to="/worker-availability"> {user && `Availability`}</Link>
+          </>
+        )
+        }
+
+        {user && user.type === "Family" && (
+          <>
+            <Link className="navDashboard" to="/family-dashboard">  {user && `Home`}</Link>
+            <Link className="navDashboard" to="/my-requests">  {user && `My requests`}</Link>
+            <Link className="navDashboard" to="/previous-requests">  {user && `Previous requests`}</Link>
           </>
         )
         }

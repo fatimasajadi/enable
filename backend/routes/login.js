@@ -16,7 +16,7 @@ module.exports = db => {
     let user = null;
     const { email, password } = req.body
     const query = {
-      text: "SELECT email FROM users WHERE email = $1;",
+      text: "SELECT * FROM users WHERE email = $1;",
       values: [email]
     };
 
@@ -31,8 +31,8 @@ module.exports = db => {
                 req.session['user_id'] = user['id']
                 let userObject = {
                   id: user['id'],
-                  firstName: user['firstname'],
-                  lastName: user['lastname'],
+                  firstname: user['firstname'],
+                  lastname: user['lastname'],
                   address: user['address'],
                   phonenumber: user['phonenumber'],
                   email: user['email'],
@@ -41,11 +41,13 @@ module.exports = db => {
                 res.json(userObject)
                 //res.json(req.session['user_id'])
               } else {
+                res.status(401);
                 res.json({ error: "Password Incorrect" })
               }
             })
             .catch(err => console.log(err));
         } else {
+          res.status(401);
           res.json({ error: "Username Incorrect" })
         }
       })

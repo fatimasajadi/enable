@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './Register.css';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
@@ -42,8 +42,9 @@ function Register() {
         <FormGroup>
           <Label for="select">Select</Label>
           <Input type="select" name="select" id="select" value={type} onChange={(e) => setType(e.target.value)} >
-            <option>Support Worker</option>
-            <option>Disable Person</option>
+            <option value="">select</option>
+            <option value="Support Worker">Support Worker</option>
+            <option value="Family">Family</option>
           </Input>
         </FormGroup>
         <FormGroup>
