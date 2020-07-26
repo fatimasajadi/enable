@@ -12,6 +12,7 @@ const usersRouter = require('./routes/users');
 const usersRegister = require('./routes/register');
 const usersLogin = require('./routes/login');
 const workerPendingRequest = require('./routes/workerPendingRequest');
+const workerPreviousSession = require('./routes/workerPreviousWork');
 
 const app = express();
 
@@ -36,7 +37,9 @@ app.use('/', indexRouter(db));
 app.use('/users', usersRouter(db));
 app.use('/api/register', usersRegister(db));
 app.use('/api/login', usersLogin(db));
-app.use('/api/pendingRequest', workerPendingRequest(db));
+app.use('/api/pending-requests', workerPendingRequest(db));
+app.use('/api/previous-sessions', workerPreviousSession(db));
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
