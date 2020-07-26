@@ -1,5 +1,7 @@
 .family-request-container {
   margin-top: 2em;
+  box-shadow: 0 2px 5px #00000035;
+  padding: 1em;
 }
 .time-date-picker {
   display: flex;
