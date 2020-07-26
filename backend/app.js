@@ -11,6 +11,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const usersRegister = require('./routes/register');
 const usersLogin = require('./routes/login');
+const workerPendingRequest = require('./routes/workerPendingRequest');
 
 const app = express();
 
@@ -24,9 +25,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
-// app.use(session({
-//   'secret': '343ji43j4n3jn4jk3n'
-// }))
 
 // Encrypted cookies
 app.use(cookieSession({
@@ -34,19 +32,11 @@ app.use(cookieSession({
   keys: ['f080ac7b-b838-4c5f-a1f4-b0a9fee10130', 'c3fb18be-448b-4f6e-a377-49373e9b7e1a']
 }));
 
-
-// creating a middleware
-// const currentUser =  (req, res, next) => {
-//   req.currentUser = users[req.session['user_id']];
-//   next();
-// };
-// app.use(currentUser);
-
-
 app.use('/', indexRouter(db));
 app.use('/users', usersRouter(db));
 app.use('/api/register', usersRegister(db));
 app.use('/api/login', usersLogin(db));
+app.use('/api/pendingRequest', workerPendingRequest(db));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
