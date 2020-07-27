@@ -1,0 +1,33 @@
+.pre-assistance-family-container {
+  margin-top: 1em;
+}
+.avatar-container {
+  padding: 20px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.submit-comments-button {
+  margin-top: 1em;
+}
+.avatar-name {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+.date-time {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+.avatar {
+  border-radius: 50%;
+  height: 80px;
+  width: 80px;
+
+  border: 1px #ccc solid;
+}
+.name {
+  font-size: 1.2em;
+  font-weight: 500;
+}

@@ -31,7 +31,7 @@ function Nav() {
           <>
             <Link className="navDashboard" to="/family-dashboard">  {user && `Home`}</Link>
             <Link className="navDashboard" to="/my-requests">  {user && `My requests`}</Link>
-            <Link className="navDashboard" to="/previous-requests">  {user && `Previous requests`}</Link>
+            <Link className="navDashboard" to="/previous-assistance">  {user && `Previous requests`}</Link>
           </>
         )
         }

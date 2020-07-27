@@ -8,6 +8,7 @@ function PreviousSession() {
   const auth = useContext(AuthContext);
   return (
     <div className='pre-session-container'>
+
       <div className='pre-session-rating'>
         <img src={ProfilePicture} alt='pending-req-pic' className='pre-session-pic'></img> {auth.user && auth.user.firstname} {auth.user && auth.user.lastname}
         <div className='star'>
@@ -18,6 +19,7 @@ function PreviousSession() {
           <i class="fa fa-star" aria-hidden="true"></i>
         </div>
       </div>
+
       <div className='description-rate'>
         <p>Description: </p>
         <p>Rate: </p>
@@ -25,7 +27,7 @@ function PreviousSession() {
 
       <div className='pre-session-button'>
         <p>Upload expenses</p>
-        <Button color="success" >Upload</Button>
+        <Button color="success" className='mybutton' >Upload</Button>
       </div>
 
     </div>

@@ -14,6 +14,7 @@ import FamilyHome from './screens/FamilyHome';
 import PendingRequest from './components/PendingRequest';
 import PreviousSession from './components/PreviousSession';
 import MyRequests from './screens/MyRequests';
+import PreviousAssistanceFamily from './screens/PreviousAssistanceFamily';
 
 function App() {
   return (
@@ -48,6 +49,9 @@ function App() {
             </Route>
             <Route path="/family-dashboard">
               <FamilyHome />
+            </Route>
+            <Route path="/previous-assistance">
+              <PreviousAssistanceFamily />
             </Route>
 
             <Route path="/">
