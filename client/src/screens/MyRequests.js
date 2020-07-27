@@ -24,13 +24,13 @@ function MyRequests(props) {
           <Row form>
             <Col md={6}>
               <FormGroup>
-                <Label for="exampleEmail">From</Label>
+                <Label>From</Label>
                 <TimeDatePicker />
               </FormGroup>
             </Col>
             <Col md={6}>
               <FormGroup>
-                <Label for="examplePassword">To</Label>
+                <Label>To</Label>
                 <TimeDatePicker />
               </FormGroup>
             </Col>
