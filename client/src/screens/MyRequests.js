@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import moment from 'moment';
 import './MyRequests.css';
 import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import DatePicker from 'react-datetime';
 import CurrencyInput from 'react-currency-input-field';
 import FamilyRequest from '../components/FamilyRequest';
-
+import Loading from '../components/Loading'
 function MyRequests() {
   const [description, setDescription] = useState('');
   const [typeOfPay, setTypeOfPay] = useState('');
@@ -13,6 +14,7 @@ function MyRequests() {
   const [worker, setWorker] = useState('');
   const [dtFrom, setDtFrom] = useState(moment());
   const [dtTo, setDtTo] = useState(moment().add(12, 'hour'));
+  const [isLoadingShown, setLoadingShown] = useState(false);
   //the state object looks like this:
   /*{
     "description": description,
@@ -24,6 +26,11 @@ function MyRequests() {
   }
   */
   const [value, setValue] = useState([]);
+
+  const handleLoading = () => {
+
+    setLoadingShown(true);
+  }
 
   return (
     <>
@@ -42,6 +49,16 @@ function MyRequests() {
               "dtTo": dtTo
             }
           ])
+          handleLoading();
+          axios
+            .post('/api/my-requests', { description, typeOfPay, rateOfPay, worker, dtFrom, dtTo })
+            .then(result => {
+              console.log(result)
+            })
+            .catch(error => {
+              console.log(error);
+            });
+
 
         }}>
           <FormGroup>
@@ -114,11 +131,16 @@ function MyRequests() {
             </Input>
           </FormGroup>
 
-          <Button color="primary" className="submit-request-button">Submit</Button>
+          <Button color="primary" className="submit-request-button" >Submit</Button>
         </Form>
 
       </div>
 
+      {isLoadingShown && <Loading />}
+      {setTimeout(function () {
+        setLoadingShown(false);
+
+      }, 5000)}
       <div >
 
         {
@@ -126,6 +148,7 @@ function MyRequests() {
         }
 
       </div>
+
 
     </>
   );
