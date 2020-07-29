@@ -28,7 +28,7 @@ function FamilyRequest(props) {
 
       <div className='pre-session-button'>
 
-        <Button color="danger">Rejected</Button>
+        <Button disabled color="secondary">Pending</Button>
       </div>
 
     </div>
