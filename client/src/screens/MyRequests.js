@@ -13,17 +13,17 @@ function MyRequests() {
   const [worker, setWorker] = useState('');
   const [dtFrom, setDtFrom] = useState(moment());
   const [dtTo, setDtTo] = useState(moment().add(12, 'hour'));
-
-  const [value, setValue] = useState([{
+  //the state object looks like this:
+  /*{
     "description": description,
     "typeOfPay": typeOfPay,
     "rateOfPay": rateOfPay,
     "worker": worker,
     "dtFrom": dtFrom,
     "dtTo": dtTo
-
-  }]);
-
+  }
+  */
+  const [value, setValue] = useState([]);
 
   return (
     <>
@@ -46,7 +46,7 @@ function MyRequests() {
         }}>
           <FormGroup>
             <Label for="description">Description</Label>
-            <Input type="textarea" name="description" placeholder='Please provide a description for your request' value={description} onChange={(e) => setDescription(e.target.value)} />
+            <Input required type="textarea" name="description" placeholder='Please provide a description for your request' value={description} onChange={(e) => setDescription(e.target.value)} />
           </FormGroup>
 
           <Row form>
@@ -98,7 +98,7 @@ function MyRequests() {
 
           <FormGroup>
             <Label for="select">Type of Pay</Label>
-            <Input type="select" name="select" value={typeOfPay} onChange={(e) => setTypeOfPay(e.target.value)} >
+            <Input required type="select" name="select" value={typeOfPay} onChange={(e) => setTypeOfPay(e.target.value)} >
               <option value="">Select the type of pay</option>
               <option value="one">option one</option>
               <option value="two">option two</option>
@@ -107,7 +107,7 @@ function MyRequests() {
 
           <FormGroup>
             <Label for="select">Support Worker</Label>
-            <Input type="select" name="select" value={worker} onChange={(e) => setWorker(e.target.value)} >
+            <Input required type="select" name="select" value={worker} onChange={(e) => setWorker(e.target.value)} >
               <option value="">Select the support worker</option>
               <option value="one">option one</option>
               <option value="two">option two</option>
@@ -118,7 +118,9 @@ function MyRequests() {
         </Form>
 
       </div>
+
       <div >
+
         {
           value.map(item => <FamilyRequest value={item} />)
         }
