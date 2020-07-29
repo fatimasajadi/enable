@@ -17,18 +17,19 @@ function FamilyRequest(props) {
         <Rating value={rating} onChange={setRating} />
       </div>
       <div className='description-rate'>
-        <p>Description: {props.value.description}</p>
-        <p>Rate, Type: {props.value.rateOfPay}, {props.value.typeOfPay}</p>
+        <p><b>Description: </b> {props.value.description}</p>
+        <p><b>Rate: </b>${props.value.rateOfPay} /hour</p>
       </div>
 
-      <div className='description-rate'>
-        <p>Date: {props.value.dtFrom.format('ddd Do of MMM, H:m:s')} to {props.value.dtTo.format('YYYY-MM-DD H:m:s')} </p>
-        <p>Time: </p>
+      <div className='description-rate-p'>
+        <p><b>From: </b> {props.value.dtFrom.format('ddd Do of MMM, LT')} </p>
+        <p><b>To: </b> {props.value.dtTo.format('ddd Do of MMM, LT')}</p>
       </div>
 
       <div className='pre-session-button'>
 
         <Button disabled color="secondary">Pending</Button>
+
       </div>
 
     </div>

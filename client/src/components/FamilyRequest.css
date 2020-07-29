@@ -37,6 +37,11 @@
   flex-direction: column;
   justify-content: left;
 }
+.description-rate-p {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+}
 .description-rate {
   display: flex;
   flex-direction: column;
