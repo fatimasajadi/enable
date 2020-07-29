@@ -14,7 +14,7 @@ function MyRequests() {
   const [dtFrom, setDtFrom] = useState(moment());
   const [dtTo, setDtTo] = useState(moment().add(12, 'hour'));
 
-  const [value, setValue] = useState({
+  const [value, setValue] = useState([{
     "description": description,
     "typeOfPay": typeOfPay,
     "rateOfPay": rateOfPay,
@@ -22,21 +22,27 @@ function MyRequests() {
     "dtFrom": dtFrom,
     "dtTo": dtTo
 
-  });
+  }]);
+
+
   return (
     <>
       <div className='container family-request-container'>
         <Form onSubmit={event => {
           event.preventDefault();
 
-          setValue({
-            "description": description,
-            "typeOfPay": typeOfPay,
-            "rateOfPay": rateOfPay,
-            "worker": worker,
-            "dtFrom": dtFrom,
-            "dtTo": dtTo
-          })
+          setValue((prev) => [
+            ...prev,
+            {
+              "description": description,
+              "typeOfPay": typeOfPay,
+              "rateOfPay": rateOfPay,
+              "worker": worker,
+              "dtFrom": dtFrom,
+              "dtTo": dtTo
+            }
+          ])
+
         }}>
           <FormGroup>
             <Label for="description">Description</Label>
@@ -113,7 +119,10 @@ function MyRequests() {
 
       </div>
       <div >
-        <FamilyRequest value={value} />
+        {
+          value.map(item => <FamilyRequest value={item} />)
+        }
+
       </div>
 
     </>
