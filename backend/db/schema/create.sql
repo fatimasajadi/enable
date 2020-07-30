@@ -21,3 +21,9 @@ CREATE TABLE contracts (
   type_of_pay VARCHAR(255),
   status TEXT
 );
+
+CREATE TABLE purchases (
+  id SERIAL PRIMARY KEY NOT NULL,
+  contract_id INTEGER REFERENCES contracts(id) ON DELETE CASCADE,
+  bill_image BYTEA
+);
