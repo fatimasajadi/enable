@@ -18,7 +18,16 @@ function Login(props) {
       .then(result => {
 
         auth.setUser(result.data);
-        history.push('/worker-dashboard')
+
+        if (result.data.type === 'Admin') {
+          history.push('/admin')
+        } else if (result.data.type === '') {
+          history.push('/worker-dashboard')
+        } else {
+          history.push('/worker-dashboard')
+        }
+
+
 
       })
 
