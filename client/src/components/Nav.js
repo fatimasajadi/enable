@@ -35,6 +35,11 @@ function Nav() {
           </>
         )
         }
+        {user && user.type === "Admin" && (
+          <>
+          </>
+        )
+        }
 
         <div className='button'>
 

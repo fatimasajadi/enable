@@ -16,6 +16,7 @@ import PendingRequest from './components/PendingRequest';
 import PreviousSession from './components/PreviousSession';
 import MyRequests from './screens/MyRequests';
 import PreviousAssistanceFamily from './screens/PreviousAssistanceFamily';
+import Admin from './screens/Admin';
 
 
 function App() {
@@ -27,11 +28,14 @@ function App() {
           <Switch>
             <Route path="/login">
               <Login />
-
             </Route>
 
             <Route path="/register">
               <Register />
+            </Route>
+
+            <Route path="/admin">
+              <Admin />
             </Route>
 
             <Route path="/worker-availability">
