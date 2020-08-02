@@ -11,39 +11,50 @@ function PendingRequest() {
 
   const [rating, setRating] = useState(4);
 
-  const [description, setDescription] = useState('');
-  const [typeOfPay, setTypeOfPay] = useState('');
-  const [rateOfPay, setRateOfPay] = useState('');
-  const [worker, setWorker] = useState('');
-  const [dtFrom, setDtFrom] = useState(moment());
-  const [dtTo, setDtTo] = useState(moment().add(12, 'hour'));
-
+  const [contracts, setContracts] = useState([
+    {
+      description: 'TEST, Delete this later',
+      rateOfPay: 112,
+      id: 1
+    },
+    {
+      description: 'TEST, Delete this later',
+      rateOfPay: 112,
+      id: 2
+    }
+  ]);
   axios
-    .post('/api/my-requests', { description, typeOfPay, rateOfPay, worker, dtFrom, dtTo })
+    .get('/api/my-requests')
     .then(result => {
-      console.log(result)
+      setContracts(result.data)
     })
     .catch(error => {
       console.log(error);
     });
 
   return (
-    <div className='request-container'>
-      <div className='profile-pic-rating'>
-        <img src={ProfilePicture} alt='pending-req-pic' className='pending-req-pic'></img> {auth.user && auth.user.firstname} {auth.user && auth.user.lastname}
-        <Rating value={rating} onChange={setRating} />
-      </div>
-      <div className='description-rate'>
-        <p>Description: </p>
-        <p>Rate: </p>
-      </div>
+    <>
+      {
+        contracts.map(contract => (
+          <div className='request-container' key={contract.id}>
+            <div className='profile-pic-rating'>
+              <img src={ProfilePicture} alt='pending-req-pic' className='pending-req-pic'></img> {auth.user && auth.user.firstname} {auth.user && auth.user.lastname}
+              <Rating value={rating} onChange={setRating} />
+            </div>
+            <div className='description-rate'>
+              <p>Description: {contract.description}</p>
+              <p>Rate: {contract.rateOfPay}</p>
+            </div>
 
-      <div className='pending-req-button'>
-        <Button color="success" >Accept</Button>
-        <Button color="success" >Reject</Button>
-      </div>
+            <div className='pending-req-button'>
+              <Button color="success" >Accept</Button>
+              <Button color="success" >Reject</Button>
+            </div>
 
-    </div>
+          </div>
+        ))
+      }
+    </>
   );
 }
 
