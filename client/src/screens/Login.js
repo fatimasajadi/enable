@@ -19,12 +19,14 @@ function Login(props) {
 
         auth.setUser(result.data);
 
+        const state = { msg: 'Welcome!' };
+
         if (result.data.type === 'Admin') {
-          history.push('/admin')
+          history.replace('/admin', state)
         } else if (result.data.type === '') {
-          history.push('/worker-dashboard')
+          history.replace('/worker-dashboard', state)
         } else {
-          history.push('/worker-dashboard')
+          history.replace('/worker-dashboard', state)
         }
 
 
