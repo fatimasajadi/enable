@@ -8,7 +8,7 @@ module.exports = db => {
     let userId = req.body.worker_id;
     if(req.session['user_id'] === userId){
       const query = {
-        text: 'SELECT * FROM contracts where service_date < CURRENT_DATE and worker_id = $1;',
+        text: 'SELECT * FROM contracts where from_date < CURRENT_TIMESTAMP and to_date < CURRENT_TIMESTAMP and worker_id = $1;',
         values:[userId]
       };
         db.query(query)
