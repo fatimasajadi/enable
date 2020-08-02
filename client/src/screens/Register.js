@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import './Register.css';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { AuthContext } from '../components/AuthProvider';
 
 function Register() {
+  const auth = useContext(AuthContext);
+  const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -13,19 +17,36 @@ function Register() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [type, setType] = useState('');
 
+
   function submit() {
     axios
       .post('/api/register', { firstName, lastName, email, password, address, phoneNumber, type })
       .then(result => {
-        console.log(result.data)
+        console.log("server says", result.data)
+        auth.setUser(result.data);
+        const state = { msg: 'Registeration is successful!' };
+
+        if (result.data.type === 'Admin') {
+          history.replace('/admin', state)
+        } else if (result.data.type === '') {
+          history.replace('/worker-dashboard', state)
+        } else {
+          history.replace('/worker-dashboard', state)
+        }
+
       })
       .catch(error => {
         console.log(error);
       });
+
+
   }
+
 
   return (
     <div className="registerContainer">
+
+
       <Form>
         <FormGroup>
           <Label for="firstName">First Name</Label>
