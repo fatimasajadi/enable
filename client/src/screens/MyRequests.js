@@ -41,22 +41,22 @@ function MyRequests() {
         <Form onSubmit={event => {
           event.preventDefault();
 
-          setValue((prev) => [
-            ...prev,
-            {
-              "description": description,
-              "typeOfPay": typeOfPay,
-              "rateOfPay": rateOfPay,
-              "worker": worker,
-              "dtFrom": dtFrom,
-              "dtTo": dtTo
-            }
-          ])
           handleLoading();
           axios
             .post('/api/my-requests', { description, typeOfPay, rateOfPay, worker, dtFrom, dtTo })
             .then(result => {
               console.log(result)
+              setValue((prev) => [
+                ...prev,
+                {
+                  "description": description,
+                  "typeOfPay": typeOfPay,
+                  "rateOfPay": rateOfPay,
+                  "worker": worker,
+                  "dtFrom": dtFrom,
+                  "dtTo": dtTo
+                }
+              ])
             })
             .catch(error => {
               console.log(error);
