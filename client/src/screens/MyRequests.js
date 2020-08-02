@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import './MyRequests.css';
-import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
+import { Container, Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import DatePicker from 'react-datetime';
 import CurrencyInput from 'react-currency-input-field';
 import FamilyRequest from '../components/FamilyRequest';
@@ -28,13 +28,16 @@ function MyRequests() {
   const [value, setValue] = useState([]);
 
   const handleLoading = () => {
-
     setLoadingShown(true);
+
+    setTimeout(function () {
+      setLoadingShown(false);
+    }, 5000)
   }
 
   return (
-    <>
-      <div className='container family-request-container'>
+    <Container>
+      <div className='family-request-container'>
         <Form onSubmit={event => {
           event.preventDefault();
 
@@ -137,20 +140,11 @@ function MyRequests() {
       </div>
 
       {isLoadingShown && <Loading />}
-      {setTimeout(function () {
-        setLoadingShown(false);
 
-      }, 5000)}
-      <div >
-
-        {
-          value.map(item => <FamilyRequest value={item} />)
-        }
-
-      </div>
-
-
-    </>
+      {
+        value.map(item => <FamilyRequest value={item} />)
+      }
+    </Container>
   );
 }
 
