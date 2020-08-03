@@ -70,9 +70,10 @@ function MyRequests() {
                   "description": description,
                   "typeOfPay": typeOfPay,
                   "rateOfPay": rateOfPay,
-                  "worker": worker,
+                  "worker": Number(worker),
                   "dtFrom": dtFrom,
-                  "dtTo": dtTo
+                  "dtTo": dtTo,
+                  id: result.data.id
                 }
               ])
               setLoadingShown(false);
@@ -150,7 +151,7 @@ function MyRequests() {
             <Label for="select">Support Worker</Label>
             <Input required type="select" name="select" value={worker} onChange={(e) => setWorker(e.target.value)} >
               <option value="">Select a worker</option>
-              {workers && workers.map(item => <option value={item.id} key={item.id}> {item.firstname}</option>)}
+              {workers && workers.map(item => <option value={item.id} key={item.id}>{item.firstname} {item.lastname}</option>)}
             </Input>
           </FormGroup>
 
@@ -162,7 +163,7 @@ function MyRequests() {
       {isLoadingShown && <Loading />}
 
       {
-        value.map(item => <FamilyRequest value={item} />)
+        value.map(item => <FamilyRequest key={item.id} value={item} workers={workers} />)
       }
     </Container>
   );
