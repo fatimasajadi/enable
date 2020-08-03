@@ -4,7 +4,7 @@ const router = express.Router();
 module.exports = db => {
   
   //Get request when worker clicks on Pending request
-  router.get('/', (req, res) => {
+  router.post('/', (req, res) => {
     console.log("Started")
     let userId = req.body.family_id;
     const {description, from_date, to_date, rate, type_of_pay, worker_id} = req.body;
