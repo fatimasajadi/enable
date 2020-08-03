@@ -1,36 +1,40 @@
 import React, { useContext } from 'react';
 import './PreviousSession.css';
 import ProfilePicture from '../images/profilePicture.PNG'
-import { Button } from 'reactstrap';
+import { Button, Row, Col, Container } from 'reactstrap';
 import { AuthContext } from '../components/AuthProvider';
+import Upload from '../components/Upload'
 
 function PreviousSession() {
   const auth = useContext(AuthContext);
   return (
-    <div className='pre-session-container'>
+    <Container>
+      <Row className='pre-session-container'>
+        <Col md={12}>
+          <Row>
+            <Col md={6}>
+              <img src={ProfilePicture} alt='pending-req-pic' className='pre-session-pic'></img> {auth.user && auth.user.firstname} {auth.user && auth.user.lastname}
+              <div className='star'>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+              </div>
+            </Col>
 
-      <div className='pre-session-rating'>
-        <img src={ProfilePicture} alt='pending-req-pic' className='pre-session-pic'></img> {auth.user && auth.user.firstname} {auth.user && auth.user.lastname}
-        <div className='star'>
-          <i class="fa fa-star" aria-hidden="true"></i>
-          <i class="fa fa-star" aria-hidden="true"></i>
-          <i class="fa fa-star" aria-hidden="true"></i>
-          <i class="fa fa-star" aria-hidden="true"></i>
-          <i class="fa fa-star" aria-hidden="true"></i>
-        </div>
-      </div>
+            <Col md={6}>
+              <p>Description: </p>
+              <p>Rate: </p>
+            </Col>
+          </Row>
+        </Col>
 
-      <div className='description-rate'>
-        <p>Description: </p>
-        <p>Rate: </p>
-      </div>
-
-      <div className='pre-session-button'>
-        <p>Upload expenses</p>
-        <Button color="success" className='mybutton' >Upload</Button>
-      </div>
-
-    </div>
+        <Col md={6}>
+          <Upload />
+        </Col>
+      </Row>
+    </Container>
   );
 }
 

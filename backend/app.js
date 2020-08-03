@@ -6,6 +6,7 @@ const logger = require('morgan');
 const db = require('./db');
 const cookieSession = require('cookie-session');
 const bodyParser = require("body-parser");
+const fileUpload = require('express-fileupload');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -14,6 +15,8 @@ const usersLogin = require('./routes/login');
 const workerPendingRequest = require('./routes/workerPendingRequest');
 const workerPreviousSession = require('./routes/workerPreviousWork');
 const familyRequest = require('./routes/familyRequest');
+
+const uploadsPath = './statics/uploads';
 
 const app = express();
 
@@ -26,7 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Encrypted cookies
 app.use(cookieSession({
@@ -40,15 +43,32 @@ app.use('/api/register', usersRegister(db));
 app.use('/api/login', usersLogin(db));
 app.use('/api/pending-requests', workerPendingRequest(db));
 app.use('/api/previous-sessions', workerPreviousSession(db));
-app.use('/api/my-requests', familyRequest(db));
+app.use('/api/my-requests',familyRequest(db))
+
+// upload bill image
+app.use(fileUpload());
+app.use('/uploads', express.static(uploadsPath))
+app.post('/upload', (req, res) => {
+  if (req.files == null) {
+    return res.status(400).json({ msg: 'No file was uploaded' })
+  }
+  const file = req.files.file;
+  file.mv(`${uploadsPath}/${file.name}`, err => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send(err);
+    }
+    res.json({ fileName: file.name, filePath: `/uploads/${file.name}` })
+  })
+})
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -59,7 +79,7 @@ app.use(function(err, req, res, next) {
 });
 
 //session handling
-app.use(function(req, res){
+app.use(function (req, res) {
   //req.session['user_id'] = null;
 })
 
