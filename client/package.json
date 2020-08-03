@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3001",
+  "proxy": "http://localhost:8002",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -11,6 +11,7 @@
     "bootstrap": "^4.5.0",
     "font-awesome": "^4.7.0",
     "moment": "^2.27.0",
+    "nan": "^2.14.1",
     "react": "^16.13.1",
     "react-big-calendar": "^0.26.0",
     "react-currency-input-field": "^2.0.0",
@@ -18,7 +19,8 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "reactstrap": "^8.5.1"
+    "reactstrap": "^8.5.1",
+    "react-loading": "2.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
