@@ -35,7 +35,7 @@ module.exports = db => {
         values:["ACCEPTED", userId]
       };
       db.query(query)
-      .then({msg: "one row updated"})
+      .then({status: "ACCEPTED"})
       .catch(err => console.log(err));
 
     }else{
@@ -57,7 +57,7 @@ module.exports = db => {
         values:["REJECTED", userId]
       };
       db.query(query)
-      .then({msg: "one row updated"})
+      .then({status: "REJECTED"})
       .catch(err => console.log(err));
 
     }else{

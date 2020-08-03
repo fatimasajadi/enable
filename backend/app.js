@@ -14,6 +14,7 @@ const usersRegister = require('./routes/register');
 const usersLogin = require('./routes/login');
 const workerPendingRequest = require('./routes/workerPendingRequest');
 const workerPreviousSession = require('./routes/workerPreviousWork');
+const familyRequest = require('./routes/familyRequest');
 
 const uploadsPath = './statics/uploads';
 
@@ -42,6 +43,7 @@ app.use('/api/register', usersRegister(db));
 app.use('/api/login', usersLogin(db));
 app.use('/api/pending-requests', workerPendingRequest(db));
 app.use('/api/previous-sessions', workerPreviousSession(db));
+app.use('/api/my-requests',familyRequest(db))
 
 // upload bill image
 app.use(fileUpload());
