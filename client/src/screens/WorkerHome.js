@@ -21,13 +21,14 @@ function WorkerHome() {
 
   return (
     <>
-      {
-        flashMessage && <Alert color="success">
-          {flashMessage}
-        </Alert>
-      }
+
 
       <div className="container worker-container">
+        {
+          flashMessage && <Alert color="success">
+            {flashMessage}
+          </Alert>
+        }
         <Col md={6}>
           <Card>
             <CardHeader>Profile Information</CardHeader>

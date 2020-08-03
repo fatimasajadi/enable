@@ -4,13 +4,14 @@ import './Login.css';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import axios from 'axios';
 import { AuthContext } from '../components/AuthProvider';
+import { Alert } from 'reactstrap';
 
-function Login(props) {
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const history = useHistory();
   const auth = useContext(AuthContext);
-
+  const [danger, setDanger] = useState(false);
   function submit(event) {
     event.preventDefault();
     axios
@@ -29,17 +30,21 @@ function Login(props) {
           history.replace('/worker-dashboard', state)
         }
 
-
-
       })
 
       .catch(error => {
         console.log(error);
+        setDanger(true);
       });
   }
 
   return (
     <div className="loginContainer">
+      {danger &&
+        <Alert color="danger">
+          Your username or password is not correct!
+     </Alert>
+      }
       <Form onSubmit={submit}>
         <FormGroup>
           <Label for="exampleEmail">Email</Label>
