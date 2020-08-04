@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './FamilyRequest.css'
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button } from 'reactstrap';
 import ProfilePicture from '../images/profilePicture.PNG'
 import { Rating } from './Rating';
 

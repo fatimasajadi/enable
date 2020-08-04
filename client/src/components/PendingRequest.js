@@ -6,20 +6,13 @@ import { Button } from 'reactstrap';
 import { AuthContext } from '../components/AuthProvider';
 import { Rating } from './Rating';
 import axios from 'axios';
+
 function PendingRequest() {
+
   const auth = useContext(AuthContext);
-
   const [rating, setRating] = useState(4);
-
   const [contracts, setContracts] = useState(null);
-  // axios
-  //   .get('/api/my-requests')
-  //   .then(result => {
-  //     setContracts(result.data)
-  //   })
-  //   .catch(error => {
-  //     console.log(error);
-  //   });
+
 
   useEffect(() => {
     axios
@@ -32,7 +25,6 @@ function PendingRequest() {
         console.log(error);
       });
 
-
   }, [])
 
 
@@ -43,12 +35,13 @@ function PendingRequest() {
         contracts && contracts.map(contract => (
           <div className='request-container' key={contract.id}>
             <div className='profile-pic-rating'>
-              <img src={ProfilePicture} alt='pending-req-pic' className='pending-req-pic'></img> {auth.user && auth.user.firstname} {auth.user && auth.user.lastname}
+              <img src={ProfilePicture} alt='pending-req-pic' className='pending-req-pic'></img> {contract.patient.firstname} {contract.patient.lastname}
               <Rating value={rating} onChange={setRating} />
             </div>
+
             <div className='description-rate'>
               <p>Description: {contract.description}</p>
-              <p>Rate: {contract.rateOfPay}</p>
+              <p>Rate: ${contract.rate}</p>
             </div>
 
             <div className='pending-req-button'>
