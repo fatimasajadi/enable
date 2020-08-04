@@ -32,6 +32,7 @@ function MyRequests() {
 
   const [value, setValue] = useState([]);
 
+
   useEffect(() => {
     axios
       .get('/api/workers')
@@ -68,7 +69,6 @@ function MyRequests() {
       <div className='family-request-container'>
         <Form onSubmit={event => {
           event.preventDefault();
-          setLoadingShown(true);
 
           Promise.all([
             axios
@@ -95,13 +95,14 @@ function MyRequests() {
                     status: 'PENDING'
                   }
                 ])
-                setLoadingShown(false);
               }),
             new Promise(r => setTimeout(r, 2000)),
           ])
             .catch(error => {
               console.log('post', error);
+
             });
+
 
         }}>
           <FormGroup>

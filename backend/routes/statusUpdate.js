@@ -3,26 +3,28 @@ const router = express.Router();
 
 module.exports = db => {
 
-//When user clicks accept button
+  //When user clicks accept button
 
   router.post('/', (req, res) => {
     console.log("Started")
-    let userId = req.body.worker_id;
-    let status = req.body.status;
+    const userId = req.session['user_id'];
+    const status = req.body.status;
+    const id = req.body.contract_id;
 
-    if (req.session['user_id'] === userId) {
-      const query = {
-        text: 'UPDATE contracts set status = $1 where worker_id = $2;',
-        values: [status, userId]
-      };
-      db.query(query)
-        .then({ status: "ACCEPTED" })
-        .catch(err => console.log(err));
+    const query = {
+      text: 'UPDATE contracts SET status=$1 WHERE worker_id=$2 AND id=$3;',
+      values: [status, userId, id]
+    };
 
-    } else {
-      res.status(401);
-      res.json({ error: "Incorrect user" })
-    }
+    db.query(query)
+      .then(() => {
+        res.json({ status: "ACCEPTED" });
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500);
+        res.json({ error: "Error while updating status" })
+      });
   });
 
   return router;

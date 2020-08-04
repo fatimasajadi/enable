@@ -11,6 +11,12 @@
   flex-direction: row;
   justify-content: space-between;
 }
+.request-container > div {
+  flex: 2;
+}
+.request-container > div:last-child {
+  flex: 1;
+}
 .pending-req-pic {
   border-radius: 50%;
   height: 30px;
