@@ -9,12 +9,6 @@
   flex-direction: column;
 }
 
-.pre-session-button Button {
-  width: 90px;
-  height: 40px;
-  margin-right: 15px;
-  margin-top: 20px;
-}
 .star {
   color: #fdcb6e;
 }
