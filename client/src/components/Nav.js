@@ -1,12 +1,22 @@
 import React, { useContext } from 'react';
 import Logo from '../images/logo.png';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './Nav.css';
 import { Button } from 'reactstrap';
 import { AuthContext } from './AuthProvider';
 
 function Nav() {
   const { user, setUser } = useContext(AuthContext);
+
+  let location = useLocation();
+
+  function getActiveClassname(path) {
+    if (location.pathname === path) {
+      return 'navDashboard active';
+    }
+
+    return 'navDashboard';
+  }
 
   function logOut() {
     setUser(null);
@@ -19,19 +29,19 @@ function Nav() {
         <Link to="/"><img src={Logo} alt='logo' /></Link>
         {user && user.type === "Support Worker" && (
           <>
-            <Link className="navDashboard" to="/worker-dashboard">  {user && `Home`}</Link>
-            <Link className="navDashboard" to="/pending-requests">  {user && `Pending requests`}</Link>
-            <Link className="navDashboard" to="/previous-sessions">  {user && `Previous sessions`}</Link>
-            <Link className="navDashboard" to="/worker-availability"> {user && `Availability`}</Link>
+            <Link className={getActiveClassname('/worker-dashboard')} to="/worker-dashboard">  {user && `Home`}</Link>
+            <Link className={getActiveClassname('/pending-requests')} to="/pending-requests">  {user && `Pending requests`}</Link>
+            <Link className={getActiveClassname('/previous-sessions')} to="/previous-sessions">  {user && `Previous sessions`}</Link>
+            <Link className={getActiveClassname('/worker-availability')} to="/worker-availability"> {user && `Availability`}</Link>
           </>
         )
         }
 
         {user && user.type === "Family" && (
           <>
-            <Link className="navDashboard" to="/family-dashboard">  {user && `Home`}</Link>
-            <Link className="navDashboard" to="/my-requests">  {user && `My requests`}</Link>
-            <Link className="navDashboard" to="/previous-assistance">  {user && `Previous requests`}</Link>
+            <Link className={getActiveClassname('/family-dashboard')} to="/family-dashboard">  {user && `Home`}</Link>
+            <Link className={getActiveClassname('/my-requests')} to="/my-requests">  {user && `My requests`}</Link>
+            <Link className={getActiveClassname('/previous-assistance')} to="/previous-assistance">  {user && `Previous requests`}</Link>
           </>
         )
         }
