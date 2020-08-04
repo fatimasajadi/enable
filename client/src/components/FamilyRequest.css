@@ -8,7 +8,12 @@
   display: flex;
   flex-direction: column;
 }
-
+.pre-session-container > div {
+  flex: 2;
+}
+.pre-session-container > div:last-child {
+  flex: 1;
+}
 .star {
   color: #fdcb6e;
 }

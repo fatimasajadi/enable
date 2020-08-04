@@ -12,7 +12,7 @@ function PendingRequest() {
   const auth = useContext(AuthContext);
   const [rating, setRating] = useState(4);
   const [contracts, setContracts] = useState(null);
-
+  const [status, setStatus] = useState();
 
   useEffect(() => {
     axios
@@ -27,7 +27,28 @@ function PendingRequest() {
 
   }, [])
 
+  function onAccept(contractId) {
+    axios
+      .post('/api/status', {
+        status: 'ACCEPTED',
+        contract_id: contractId
+      })
+      .then(result => {
+        setContracts(prev => prev.map(contract => {
+          if (contract.id === contractId) {
+            return {
+              ...contract,
+              status: 'ACCEPTED',
+            }
+          }
 
+          return contract;
+        }));
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
   return (
     <>
       {
@@ -44,11 +65,16 @@ function PendingRequest() {
             </div>
 
             <div className='pending-req-button'>
-              <Button color="success" >Accept</Button>
-              <Button color="success" >Reject</Button>
+              {
+                contract.status === 'PENDING' && <>
+                  <Button color="success" onClick={() => onAccept(contract.id)}>Accept</Button>
+                  <Button color="danger">Reject</Button>
+                </>
+              }
+              {
+                contract.status === 'ACCEPTED' && <Button disabled color="success">Accepted</Button>
+              }
             </div>
-
-
           </div>
         ))
       }
