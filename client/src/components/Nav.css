@@ -7,6 +7,7 @@
   position: sticky;
   top: 0;
   box-shadow: 0 2px 5px #00000010;
+  z-index: 999999;
 }
 
 .nav img {
