@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import './PendingRequest.css';
 import moment from 'moment';
 import ProfilePicture from '../images/profilePicture.PNG'
@@ -11,31 +11,36 @@ function PendingRequest() {
 
   const [rating, setRating] = useState(4);
 
-  const [contracts, setContracts] = useState([
-    {
-      description: 'TEST, Delete this later',
-      rateOfPay: 112,
-      id: 1
-    },
-    {
-      description: 'TEST, Delete this later',
-      rateOfPay: 112,
-      id: 2
-    }
-  ]);
-  axios
-    .get('/api/my-requests')
-    .then(result => {
-      setContracts(result.data)
-    })
-    .catch(error => {
-      console.log(error);
-    });
+  const [contracts, setContracts] = useState(null);
+  // axios
+  //   .get('/api/my-requests')
+  //   .then(result => {
+  //     setContracts(result.data)
+  //   })
+  //   .catch(error => {
+  //     console.log(error);
+  //   });
+
+  useEffect(() => {
+    axios
+      .get('/api/pending-requests')
+      .then(result => {
+        setContracts(result.data)
+        console.log(result)
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+
+  }, [])
+
+
 
   return (
     <>
       {
-        contracts.map(contract => (
+        contracts && contracts.map(contract => (
           <div className='request-container' key={contract.id}>
             <div className='profile-pic-rating'>
               <img src={ProfilePicture} alt='pending-req-pic' className='pending-req-pic'></img> {auth.user && auth.user.firstname} {auth.user && auth.user.lastname}
