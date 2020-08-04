@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import './FamilyRequest.css'
-import { Button } from 'reactstrap';
+import { Button, ButtonGroup, ButtonDropdown, DropdownToggle, DropdownItem, DropdownMenu } from 'reactstrap';
 import ProfilePicture from '../images/profilePicture.PNG'
 import { Rating } from './Rating';
 
 function FamilyRequest(props) {
   const [rating, setRating] = useState(1);
   const worker = props.workers.find(item => item.id === props.value.workerId);
-  console.log('-> worker', worker)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
     <div className='pre-session-container'>
@@ -31,8 +31,17 @@ function FamilyRequest(props) {
 
       <div className='pre-session-button'>
 
-        {props.value.status === 'PENDING' &&
-          <Button disabled color="secondary">{props.value.status}</Button>
+        {props.value.status === 'PENDING' && (
+          <ButtonGroup>
+            <Button disabled color="secondary">{props.value.status}</Button>
+            <ButtonDropdown isOpen={isDropdownOpen} toggle={() => { setIsDropdownOpen(prev => !prev) }}>
+              <DropdownToggle caret />
+              <DropdownMenu>
+                <DropdownItem>Delete</DropdownItem>
+              </DropdownMenu>
+            </ButtonDropdown>
+          </ButtonGroup>
+        )
         }
         {props.value.status === 'ACCEPTED' &&
           <Button disabled color="success">{props.value.status}</Button>
