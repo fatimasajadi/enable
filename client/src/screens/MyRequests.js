@@ -8,13 +8,14 @@ import CurrencyInput from 'react-currency-input-field';
 import FamilyRequest from '../components/FamilyRequest';
 import Loading from '../components/Loading';
 
+
 function MyRequests() {
   const [description, setDescription] = useState('');
   const [typeOfPay, setTypeOfPay] = useState('');
-  const [rateOfPay, setRateOfPay] = useState('');
-  const [worker, setWorker] = useState('');
-  const [dtFrom, setDtFrom] = useState(moment());
-  const [dtTo, setDtTo] = useState(moment().add(12, 'hour'));
+  const [rate, setRate] = useState('');
+  const [workerId, setWorkerId] = useState('');
+  const [fromDate, setFromDate] = useState(moment());
+  const [toDate, setToDate] = useState(moment().add(12, 'hour'));
   const [isLoadingShown, setLoadingShown] = useState(false);
   const [workers, setWorkers] = useState(null);
 
@@ -22,12 +23,13 @@ function MyRequests() {
   /*{
     "description": description,
     "typeOfPay": typeOfPay,
-    "rateOfPay": rateOfPay,
+    "rate": rate,
     "worker": worker,
-    "dtFrom": dtFrom,
-    "dtTo": dtTo
+    "fromDate": fromDate,
+    "toDate": toDate
   }
   */
+
   const [value, setValue] = useState([]);
 
   useEffect(() => {
@@ -39,6 +41,25 @@ function MyRequests() {
       .catch(error => {
         console.log(error);
       });
+
+
+    axios.get('/api/previous-assistance')
+      .then(result => {
+        setValue(result.data.map(item => ({
+          description: item.description,
+          typeOfPay: item.type_of_pay,
+          rate: item.rate,
+          workerId: item.worker_id,
+          fromDate: moment(item.from_date),
+          toDate: moment(item.to_date),
+          status: item.status,
+        })))
+        console.log("this is value", value)
+      })
+
+      .catch(error => {
+        console.log(error);
+      });
   }, []);
 
   return (
@@ -47,7 +68,6 @@ function MyRequests() {
       <div className='family-request-container'>
         <Form onSubmit={event => {
           event.preventDefault();
-
           setLoadingShown(true);
 
           Promise.all([
@@ -55,34 +75,33 @@ function MyRequests() {
               .post('/api/my-requests', {
                 description,
                 type_of_pay: typeOfPay,
-                rate: rateOfPay,
-                worker_id: worker,
-                from_date: dtFrom,
-                to_date: dtTo
+                rate: rate,
+                worker_id: workerId,
+                from_date: fromDate,
+                to_date: toDate,
+                status: 'PENDING',
+              })
+              .then((result) => {
+                setValue((prev) => [
+                  ...prev,
+                  {
+                    description,
+                    typeOfPay: typeOfPay,
+                    rate: rate,
+                    workerId: Number(workerId),
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    id: result.data.id,
+                    status: 'PENDING'
+                  }
+                ])
+                setLoadingShown(false);
               }),
             new Promise(r => setTimeout(r, 2000)),
           ])
-            .then(([result]) => {
-              console.log(result)
-              setValue((prev) => [
-                ...prev,
-                {
-                  "description": description,
-                  "typeOfPay": typeOfPay,
-                  "rateOfPay": rateOfPay,
-                  "worker": Number(worker),
-                  "dtFrom": dtFrom,
-                  "dtTo": dtTo,
-                  id: result.data.id
-                }
-              ])
-              setLoadingShown(false);
-            })
             .catch(error => {
-              console.log(error);
-              setLoadingShown(false);
+              console.log('post', error);
             });
-
 
         }}>
           <FormGroup>
@@ -101,8 +120,8 @@ function MyRequests() {
                   }}
                   dateFormat="DD-MM-YYYY"
                   timeFormat="hh:mm A"
-                  value={dtFrom}
-                  onChange={val => setDtFrom(val)}
+                  value={fromDate}
+                  onChange={val => setFromDate(val)}
                 />
               </FormGroup>
             </Col>
@@ -116,8 +135,8 @@ function MyRequests() {
                   }}
                   dateFormat="DD-MM-YYYY"
                   timeFormat="hh:mm A"
-                  value={dtTo}
-                  onChange={val => setDtTo(val)}
+                  value={toDate}
+                  onChange={val => setToDate(val)}
                 />
 
               </FormGroup>
@@ -132,8 +151,8 @@ function MyRequests() {
               prefix="$"
               allowDecimals={true}
               decimalsLimit={2}
-              value={rateOfPay}
-              onChange={setRateOfPay}
+              value={rate}
+              onChange={setRate}
             />
           </FormGroup>
 
@@ -149,7 +168,7 @@ function MyRequests() {
 
           <FormGroup>
             <Label for="select">Support Worker</Label>
-            <Input required type="select" name="select" value={worker} onChange={(e) => setWorker(e.target.value)} >
+            <Input required type="select" name="select" value={workerId} onChange={(e) => setWorkerId(e.target.value)} >
               <option value="">Select a worker</option>
               {workers && workers.map(item => <option value={item.id} key={item.id}>{item.firstname} {item.lastname}</option>)}
             </Input>
