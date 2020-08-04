@@ -50,6 +50,9 @@
   margin-left: 0px;
   margin-top: 45px;
 }
+.navDashboard.active {
+  font-weight: bold;
+}
 .navDashboard:hover {
   text-decoration: none;
 }
