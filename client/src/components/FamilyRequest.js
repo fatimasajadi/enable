@@ -5,7 +5,7 @@ import ProfilePicture from '../images/profilePicture.PNG'
 import { Rating } from './Rating';
 
 function FamilyRequest(props) {
-  const [rating, setRating] = useState(1);
+  const [rating, setRating] = useState(4);
   const worker = props.workers.find(item => item.id === props.value.workerId);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -46,7 +46,7 @@ function FamilyRequest(props) {
         {props.value.status === 'ACCEPTED' &&
           <Button disabled color="success">{props.value.status}</Button>
         }
-        {props.value.status === 'Rejected' &&
+        {props.value.status === 'REJECTED' &&
           <Button disabled color="danger">{props.value.status}</Button>
         }
 

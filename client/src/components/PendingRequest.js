@@ -49,6 +49,29 @@ function PendingRequest() {
         console.log(error);
       });
   }
+
+  function onReject(contractId) {
+    axios
+      .post('/api/status', {
+        status: 'REJECTED',
+        contract_id: contractId
+      })
+      .then(result => {
+        setContracts(prev => prev.map(contract => {
+          if (contract.id === contractId) {
+            return {
+              ...contract,
+              status: 'REJECTED',
+            }
+          }
+
+          return contract;
+        }));
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
   return (
     <>
       {
@@ -68,11 +91,15 @@ function PendingRequest() {
               {
                 contract.status === 'PENDING' && <>
                   <Button color="success" onClick={() => onAccept(contract.id)}>Accept</Button>
-                  <Button color="danger">Reject</Button>
+                  <Button color="danger" onClick={() => onReject(contract.id)}>Reject</Button>
                 </>
               }
               {
-                contract.status === 'ACCEPTED' && <Button disabled color="success">Accepted</Button>
+                contract.status === 'ACCEPTED' && <Button disabled color="success" >Accepted</Button>
+
+              }
+              {
+                contract.status === 'REJECTED' && <Button disabled color="danger" >Rejected</Button>
               }
             </div>
           </div>
