@@ -18,7 +18,7 @@ module.exports = db => {
 
     db.query(query)
       .then(() => {
-        res.json({ status: "ACCEPTED" });
+        res.json({ status });
       })
       .catch(err => {
         console.error(err);
