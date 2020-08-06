@@ -17,12 +17,12 @@ function PreviousSession(props) {
       <Row className='pre-session-container'>
         <Col md={12}>
           <Row >
-            <Col md={4}>
-              <img src={ProfilePicture} alt='pending-req-pic' className='pre-session-pic'></img> {patient.patient.firstname}{patient.patient.lastname}
+            <Col md={4} className='profile-container'>
+              <img src={ProfilePicture} alt='pending-req-pic' className='previous-session-profile-picture'></img> {patient.patient.firstname}{patient.patient.lastname}
               <Rating value={rating} onChange={setRating} />
             </Col>
 
-            <Col md={4}>
+            <Col md={4} className='profile-container'>
               <p>Description: {props.completedAssistance.description}</p>
               <p>Rate: {props.completedAssistance.rate}</p>
             </Col>
@@ -33,7 +33,7 @@ function PreviousSession(props) {
           </Row>
         </Col>
 
-        <Col md={6}>
+        <Col md={6} className='profile-container'>
           <Upload />
         </Col>
       </Row>
