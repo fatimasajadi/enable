@@ -16,7 +16,6 @@ import PendingRequest from './components/PendingRequest';
 import MyRequests from './screens/MyRequests';
 import PreviousAssistanceFamilyS from './screens/PreviousAssistanceFamilyS';
 import Admin from './screens/Admin';
-import Upload from './components/Upload';
 import PreviousSessions from './screens/PreviousSessions';
 
 function App() {
@@ -38,9 +37,7 @@ function App() {
               <Admin />
             </Route>
 
-            <Route path="/upload">
-              <Upload />
-            </Route>
+
 
             <Route path="/worker-availability">
               <Calendar />
