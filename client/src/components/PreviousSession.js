@@ -3,15 +3,16 @@ import './PreviousSession.css';
 import ProfilePicture from '../images/profilePicture.PNG'
 import { Button, Row, Col, Container } from 'reactstrap';
 import { AuthContext } from '../components/AuthProvider';
-
 import Datetime from 'react-datetime';
 import moment from 'moment';
 import { Rating } from './Rating';
 import axios from 'axios';
+import CurrencyInput from 'react-currency-input-field';
 
 function PreviousSession(props) {
   const [rating, setRating] = useState(3);
   const [value, setValue] = useState(null);
+  const [rate, setRate] = useState('');
   const auth = useContext(AuthContext);
   const patient = props.patients.find(item => item.patient_id === props.completedAssistance.patientId);
 
@@ -76,7 +77,7 @@ function PreviousSession(props) {
 
               <Col md={4} className='profile-container'>
                 <p>Description: {props.completedAssistance.description}</p>
-                <p>Rate: {props.completedAssistance.rate}</p>
+                <p>Rate: ${props.completedAssistance.rate}</p>
               </Col>
               <Col md={4}>
                 <p>Check-in: <Datetime inputProps={{ required: true }} dateFormat={false} /></p>
@@ -86,7 +87,15 @@ function PreviousSession(props) {
           </Col>
 
           <Col md={6} className='profile-container-upload'>
-            <p>Upload additional expenses</p>
+            <CurrencyInput
+              className="form-control"
+              placeholder="$0.00"
+              prefix="$"
+              allowDecimals={true}
+              decimalsLimit={2}
+              value={rate}
+              onChange={setRate}
+            />
 
             <label className="btn btn-outline-primary" >
               {fileName}
