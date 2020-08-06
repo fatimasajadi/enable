@@ -15,3 +15,9 @@
 .profile-container {
   margin-top: 2em;
 }
+.profile-container-upload {
+  margin-top: 0.9em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}

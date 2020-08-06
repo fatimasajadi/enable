@@ -28,5 +28,5 @@ CREATE TABLE contracts (
 CREATE TABLE purchases (
   id SERIAL PRIMARY KEY NOT NULL,
   contract_id INTEGER REFERENCES contracts(id) ON DELETE CASCADE,
-  bill_image BYTEA
+  bill_image VARCHAR(255)
 );
