@@ -19,6 +19,8 @@ const listAllWorkers = require('./routes/listAllWorkers');
 const statusUpdate = require('./routes/statusUpdate');
 const familyPreviousRequest = require('./routes/familyPreviousRequest');
 const completedRequest = require('./routes/completedRequest');
+const completedAssistanceWorker = require('./routes/completedAssistanceWorker');
+
 
 const uploadsPath = './statics/uploads';
 
@@ -47,11 +49,13 @@ app.use('/api/register', usersRegister(db));
 app.use('/api/login', usersLogin(db));
 app.use('/api/pending-requests', workerPendingRequest(db));
 app.use('/api/previous-sessions', workerPreviousSession(db));
-app.use('/api/my-requests',familyRequest(db));
-app.use('/api/workers',listAllWorkers(db));
-app.use('/api/status',statusUpdate(db));
-app.use('/api/previous-assistance',familyPreviousRequest(db));
-app.use('/api/completed-requests',completedRequest(db))
+app.use('/api/my-requests', familyRequest(db));
+app.use('/api/workers', listAllWorkers(db));
+app.use('/api/status', statusUpdate(db));
+app.use('/api/previous-assistance', familyPreviousRequest(db));
+app.use('/api/completed-requests', completedRequest(db));
+app.use('/api/completed-assistance', completedAssistanceWorker(db))
+
 
 // upload bill image
 app.use(fileUpload());
