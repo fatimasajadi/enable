@@ -15,7 +15,7 @@ import FamilyHome from './screens/FamilyHome';
 import PendingRequest from './components/PendingRequest';
 import PreviousSession from './components/PreviousSession';
 import MyRequests from './screens/MyRequests';
-import PreviousAssistanceFamily from './screens/PreviousAssistanceFamily';
+import PreviousAssistanceFamilyS from './screens/PreviousAssistanceFamilyS';
 import Admin from './screens/Admin';
 import Upload from './components/Upload';
 
@@ -63,7 +63,7 @@ function App() {
               <FamilyHome />
             </Route>
             <Route path="/previous-assistance">
-              <PreviousAssistanceFamily />
+              <PreviousAssistanceFamilyS />
             </Route>
 
             <Route path="/">
