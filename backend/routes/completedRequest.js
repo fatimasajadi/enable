@@ -7,7 +7,7 @@ module.exports = db => {
 
     let userId = req.session['user_id'];
     const query = {
-      text: 'SELECT * FROM contracts WHERE to_date < CURRENT_TIMESTAMP AND status = "ACCEPTED" AND patient_id = $1;',
+      text: `SELECT * FROM contracts WHERE  status = 'ACCEPTED' AND to_date < CURRENT_TIMESTAMP AND patient_id = $1;`,
       values: [userId]
     };
     db.query(query)

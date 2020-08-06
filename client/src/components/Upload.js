@@ -25,6 +25,7 @@ function Upload() {
         }
       })
       const { fileName, filePath } = res.data;
+
       axios.post('/api/previous-sessions', {
         bill_image: fileName,
         contract_id: 1,
