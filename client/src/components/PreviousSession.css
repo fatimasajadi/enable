@@ -6,9 +6,12 @@
   box-shadow: 0 2px 5px #00000035;
 }
 
-.pre-session-pic {
+.previous-session-profile-picture {
   border-radius: 50%;
   height: 30px;
   width: 30px;
   margin-bottom: 0.5em;
+}
+.profile-container {
+  margin-top: 2em;
 }
