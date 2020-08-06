@@ -3,6 +3,7 @@ import './PreviousAssistanceFamilyS.css';
 import axios from "axios";
 import PreviousAssistanceFamily from './PreviousAssistanceFamily';
 import moment from 'moment';
+import { Row } from 'reactstrap';
 
 function PreviousAssistanceFamilyS() {
 
@@ -41,9 +42,14 @@ function PreviousAssistanceFamilyS() {
 
   return (
     <>
-      {doneRequests &&
-        doneRequests.map(item => <PreviousAssistanceFamily key={item.id} doneRequests={item} workers={workers} />)
-      }
+      <div className='container pre-assistance-family-container ah'>
+        <Row  >
+          {doneRequests &&
+            doneRequests.map(item => <PreviousAssistanceFamily key={item.id} doneRequests={item} workers={workers} />)
+          }
+        </Row>
+      </div>
+
     </>
   );
 }
