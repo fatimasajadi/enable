@@ -4,9 +4,6 @@
   margin-top: 40px;
   width: 100%;
   box-shadow: 0 2px 5px #00000035;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 }
 
 .pre-session-pic {
@@ -14,26 +11,4 @@
   height: 30px;
   width: 30px;
   margin-bottom: 0.5em;
-}
-
-.pre-session-button {
-  display: flex;
-  flex-direction: row;
-}
-.mybutton {
-  width: 90px;
-  height: 40px;
-  margin-right: 15px;
-}
-.star {
-  color: #fdcb6e;
-}
-.pre-session-rating {
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-}
-.description-rate {
-  display: flex;
-  flex-direction: column;
 }
