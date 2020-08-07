@@ -61,9 +61,9 @@ const Admin = (props) => {
 
 
       <FormGroup>
-        <Label for="select">Support Worker</Label>
+        <Label for="select">Family</Label>
         <Input required type="select" name="select" value={workerId} onChange={(e) => setWorkerId(e.target.value)} >
-          <option value="">Select a worker</option>
+          <option value="">Select a family</option>
           {workers && workers.map(item => <option value={item.id} key={item.id}>{item.firstname} {item.lastname}</option>)}
         </Input>
       </FormGroup>

@@ -17,7 +17,7 @@ import MyRequests from './screens/MyRequests';
 import PreviousAssistanceFamilyS from './screens/PreviousAssistanceFamilyS';
 import Admin from './screens/Admin';
 import PreviousSessions from './screens/PreviousSessions';
-
+import Invoice from './components/Invoice';
 function App() {
   return (
     <>
@@ -37,7 +37,9 @@ function App() {
               <Admin />
             </Route>
 
-
+            <Route path="/invoice">
+              <Invoice />
+            </Route>
 
             <Route path="/worker-availability">
               <Calendar />
