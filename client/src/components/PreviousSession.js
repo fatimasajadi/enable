@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import './PreviousSession.css';
 import ProfilePicture from '../images/profilePicture.PNG'
 import { Button, Row, Col, Container } from 'reactstrap';
-// import Datetime from 'react-datetime';
 import moment from 'moment';
 import { Rating } from './Rating';
 import axios from 'axios';
 import CurrencyInput from 'react-currency-input-field';
 import DatePicker from 'react-datetime';
+import { Alert } from 'reactstrap';
 
 function PreviousSession(props) {
   const [rating, setRating] = useState(3);
+  const [alert, setAlert] = useState(false);
+  const [submit, setSubmit] = useState(false);
   const [value, setValue] = useState([]);
   const [amount, setAmount] = useState('');
   const [fromTime, setFromTime] = useState(moment());
@@ -64,6 +66,8 @@ function PreviousSession(props) {
             }
           ])
           console.log("val", value)
+          setAlert(true);
+          setSubmit(true);
         })
         .catch(error => {
           console.log('post', error);
@@ -76,10 +80,14 @@ function PreviousSession(props) {
         console.log(err.response.data.msg)
       }
     }
+
   }
 
   return (
     <Container>
+      {/* {alert === true && <Alert color="success">
+        successfully submitted!
+</Alert>} */}
       <form onSubmit={onSubmit}>
         <Row className='pre-session-container'>
           <Col md={12}>
@@ -130,7 +138,10 @@ function PreviousSession(props) {
               <input type='file' onChange={onFileChange} style={{ display: "none" }} />
             </label>
 
-            <Button color="success" >Submit</Button>
+            {submit === false && <Button color="success" >Submit</Button>}
+            {submit === true &&
+              <Button disabled color="success">Submitted</Button>
+            }
           </Col>
         </Row>
       </form>
