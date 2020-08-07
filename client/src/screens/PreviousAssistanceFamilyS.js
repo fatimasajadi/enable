@@ -15,28 +15,31 @@ function PreviousAssistanceFamilyS() {
       .get('/api/workers')
       .then(result => {
         setWorkers(result.data)
+
+        axios
+          .get('/api/completed-requests')
+          .then(result => {
+            setDoneRequests(result.data.map(item => ({
+              description: item.description,
+              typeOfPay: item.type_of_pay,
+              rate: item.rate,
+              workerId: item.worker_id,
+              fromDate: moment(item.from_date),
+              toDate: moment(item.to_date),
+              status: item.status,
+            })))
+
+          })
+          .catch(error => {
+            console.log(error);
+          });
+
       })
       .catch(error => {
         console.log(error);
       });
 
-    axios
-      .get('/api/completed-requests')
-      .then(result => {
-        setDoneRequests(result.data.map(item => ({
-          description: item.description,
-          typeOfPay: item.type_of_pay,
-          rate: item.rate,
-          workerId: item.worker_id,
-          fromDate: moment(item.from_date),
-          toDate: moment(item.to_date),
-          status: item.status,
-        })))
 
-      })
-      .catch(error => {
-        console.log(error);
-      });
 
   }, [])
 
