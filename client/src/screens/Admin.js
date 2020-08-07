@@ -1,46 +1,75 @@
 import './Admin.css'
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import moment from 'moment';
+import './MyRequests.css';
+import { Container, Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
+import DatePicker from 'react-datetime';
 import { Table } from 'reactstrap';
+import Datetime from 'react-datetime';
+
 
 const Admin = (props) => {
+  const [fromDate, setFromDate] = useState(moment());
+  const [toDate, setToDate] = useState(moment());
+  const [workers, setWorkers] = useState(null);
+  const [workerId, setWorkerId] = useState('');
+
+  useEffect(() => {
+    axios
+      .get('/api/workers')
+      .then(result => {
+        setWorkers(result.data);
+        console.log("result", result.data)
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
   return (
-    <div className='container admin-worker-table'>
-      <Table>
-        <thead>
-          <tr>
-            <th>Contract_ID</th>
-            <th> Worker's Name</th>
-            <th> Family's Name </th>
-            <th>Appointment Date</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Rate</th>
-            <th>Type of Rate</th>
-            <th>Expenses</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-          </tr>
-        </tbody>
-      </Table>
+
+    <div className='container admin-container'>
+      <Row form>
+        <Col md={6}>
+          <FormGroup>
+            <Label>From</Label>
+            <Datetime
+              timeFormat="hh:mm A"
+              value={fromDate}
+              onChange={val => setFromDate(val)}
+              inputProps={{ required: true }}
+              dateFormat={true}
+              timeFormat={false}
+            />
+          </FormGroup>
+        </Col>
+        <Col md={6}>
+          <FormGroup>
+            <Label>To</Label>
+
+            <Datetime
+              timeFormat="hh:mm A"
+              value={toDate}
+              onChange={val => setToDate(val)}
+              inputProps={{ required: true }}
+              dateFormat={true}
+              timeFormat={false}
+            />
+          </FormGroup>
+        </Col>
+      </Row>
+
+
+      <FormGroup>
+        <Label for="select">Support Worker</Label>
+        <Input required type="select" name="select" value={workerId} onChange={(e) => setWorkerId(e.target.value)} >
+          <option value="">Select a worker</option>
+          {workers && workers.map(item => <option value={item.id} key={item.id}>{item.firstname} {item.lastname}</option>)}
+        </Input>
+      </FormGroup>
+
+      <Button color="primary" className="submit-request-button" >Submit</Button>
+
     </div>
   );
 }
