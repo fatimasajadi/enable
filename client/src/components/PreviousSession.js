@@ -14,7 +14,7 @@ function PreviousSession(props) {
   const [amount, setAmount] = useState('');
   const [fromTime, setFromTime] = useState();
   const [toTime, setToTime] = useState();
-  const patient = props.patients.find(item => item.patient_id === props.completedAssistance.patientId);
+  // const patient = props.patients.find(item => item.patient_id === props.completedAssistance.patientId);
 
   const [file, setFile] = useState();
   const [fileName, setFilename] = useState('Choose file');
@@ -82,7 +82,7 @@ function PreviousSession(props) {
           <Col md={12}>
             <Row >
               <Col md={4} className='profile-container'>
-                <img src={ProfilePicture} alt='pending-req-pic' className='previous-session-profile-picture'></img> {patient.patient.firstname}{patient.patient.lastname}
+                {/* <img src={ProfilePicture} alt='pending-req-pic' className='previous-session-profile-picture'></img> {patient.patient.firstname}{patient.patient.lastname} */}
                 <Rating value={rating} onChange={setRating} />
               </Col>
 
