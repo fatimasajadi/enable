@@ -25,6 +25,8 @@ function PreviousSessions() {
               fromDate: moment(item.from_date),
               toDate: moment(item.to_date),
               status: item.status,
+              check_in: item.check_in,
+              check_out: item.check_out
             })))
 
           })

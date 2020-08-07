@@ -12,7 +12,7 @@ import { Alert } from 'reactstrap';
 function PreviousSession(props) {
   const [rating, setRating] = useState(3);
   const [alert, setAlert] = useState(false);
-  const [submit, setSubmit] = useState(false);
+
   const [value, setValue] = useState([]);
   const [amount, setAmount] = useState('');
   const [fromTime, setFromTime] = useState(moment());
@@ -65,9 +65,8 @@ function PreviousSession(props) {
 
             }
           ])
-          console.log("val", value)
           setAlert(true);
-          setSubmit(true);
+
         })
         .catch(error => {
           console.log('post', error);
@@ -82,16 +81,19 @@ function PreviousSession(props) {
     }
 
   }
-
+  console.log('props.completedAssistance', props.completedAssistance)
   return (
     <Container>
-      {/* {alert === true && <Alert color="success">
-        successfully submitted!
-</Alert>} */}
       <form onSubmit={onSubmit}>
         <Row className='pre-session-container'>
           <Col md={12}>
             <Row >
+              {alert && <Col md={12}>
+                <Alert color="success">
+                  successfully submitted!
+     </Alert>
+              </Col>
+              }
               <Col md={4} className='profile-container'>
                 <img src={ProfilePicture} alt='pending-req-pic' className='previous-session-profile-picture'></img> {patient.patient.firstname}{patient.patient.lastname}
                 <Rating value={rating} onChange={setRating} />
@@ -138,10 +140,11 @@ function PreviousSession(props) {
               <input type='file' onChange={onFileChange} style={{ display: "none" }} />
             </label>
 
-            {submit === false && <Button color="success" >Submit</Button>}
-            {submit === true &&
-              <Button disabled color="success">Submitted</Button>
+            {props.completedAssistance.check_in || alert ?
+              <Button disabled color="success">Submitted</Button> :
+              <Button color="success" >Submit</Button>
             }
+
           </Col>
         </Row>
       </form>
