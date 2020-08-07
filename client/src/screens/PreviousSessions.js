@@ -22,6 +22,7 @@ function PreviousSessions() {
     axios
       .get('/api/completed-assistance')
       .then(result => {
+        console.log("ajab", result.data)
         setCompletedAssistance(result.data.map(item => ({
           description: item.description,
           typeOfPay: item.type_of_pay,
