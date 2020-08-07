@@ -7,18 +7,18 @@ module.exports = db => {
   //To get the details of Previous work
   router.get('/', (req, res) => {
     let userId = req.body.worker_id;
-    if(req.session['user_id'] === userId){
+    if (req.session['user_id'] === userId) {
       const query = {
-        text: 'SELECT * FROM contracts where from_date < CURRENT_TIMESTAMP and to_date < CURRENT_TIMESTAMP and worker_id = $1;',
-        values:[userId]
+        text: 'SELECT * FROM contracts where to_date < CURRENT_TIMESTAMP and worker_id = $1;',
+        values: [userId]
       };
-        db.query(query)
-          .then(result => res.json(result))
-          .catch(err => console.log(err));
-      }else{
-        res.status(401);
-        res.json({ error: "Incorrect user" })
-      }
+      db.query(query)
+        .then(result => res.json(result))
+        .catch(err => console.log(err));
+    } else {
+      res.status(401);
+      res.json({ error: "Incorrect user" })
+    }
 
     //const userId = req.session['user_id'];
     const query = {

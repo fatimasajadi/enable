@@ -17,19 +17,7 @@ function MyRequests() {
   const [fromDate, setFromDate] = useState(moment());
   const [toDate, setToDate] = useState(moment().add(12, 'hour'));
   const [isLoadingShown, setLoadingShown] = useState(false);
-  const [workers, setWorkers] = useState(null);
-
-  //the state object looks like this:
-  /*{
-    "description": description,
-    "typeOfPay": typeOfPay,
-    "rate": rate,
-    "worker": worker,
-    "fromDate": fromDate,
-    "toDate": toDate
-  }
-  */
-
+  const [workers, setWorkers] = useState([]);
   const [value, setValue] = useState([]);
 
 
@@ -37,27 +25,25 @@ function MyRequests() {
     axios
       .get('/api/workers')
       .then(result => {
-        setWorkers(result.data)
+        setWorkers(result.data);
+        console.log(workers)
+        axios.get('/api/previous-assistance')
+          .then(result => {
+            setValue(result.data.map(item => ({
+              description: item.description,
+              typeOfPay: item.type_of_pay,
+              rate: item.rate,
+              workerId: item.worker_id,
+              fromDate: moment(item.from_date),
+              toDate: moment(item.to_date),
+              status: item.status,
+            })))
+          })
+
+          .catch(error => {
+            console.log(error);
+          });
       })
-      .catch(error => {
-        console.log(error);
-      });
-
-
-    axios.get('/api/previous-assistance')
-      .then(result => {
-        setValue(result.data.map(item => ({
-          description: item.description,
-          typeOfPay: item.type_of_pay,
-          rate: item.rate,
-          workerId: item.worker_id,
-          fromDate: moment(item.from_date),
-          toDate: moment(item.to_date),
-          status: item.status,
-        })))
-        console.log("this is value", value)
-      })
-
       .catch(error => {
         console.log(error);
       });
@@ -102,8 +88,6 @@ function MyRequests() {
               console.log('post', error);
 
             });
-
-
         }}>
           <FormGroup>
             <Label for="description">Description</Label>
@@ -145,7 +129,7 @@ function MyRequests() {
           </Row>
 
           <FormGroup>
-            <Label >Rate of Pay (per hour ?) </Label>
+            <Label >Rate of Pay</Label>
             <CurrencyInput
               className="form-control"
               placeholder="$0.00"

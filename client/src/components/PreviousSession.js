@@ -1,8 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import './PreviousSession.css';
 import ProfilePicture from '../images/profilePicture.PNG'
 import { Button, Row, Col, Container } from 'reactstrap';
-import { AuthContext } from '../components/AuthProvider';
 import Datetime from 'react-datetime';
 import moment from 'moment';
 import { Rating } from './Rating';
@@ -12,8 +11,9 @@ import CurrencyInput from 'react-currency-input-field';
 function PreviousSession(props) {
   const [rating, setRating] = useState(3);
   const [value, setValue] = useState(null);
-  const [rate, setRate] = useState('');
-  const auth = useContext(AuthContext);
+  const [amount, setAmount] = useState('');
+  const [fromTime, setFromTime] = useState();
+  const [toTime, setToTime] = useState();
   const patient = props.patients.find(item => item.patient_id === props.completedAssistance.patientId);
 
   const [file, setFile] = useState();
@@ -41,12 +41,23 @@ function PreviousSession(props) {
       axios
         .post('/api/previous-sessions', {
           bill_image: fileName,
-          // startDate: 1111
+          bill_amount: amount,
+          check_in: fromTime,
+          check_out: toTime,
+          contract_id: props.completedAssistance.id
+
+
+
         })
         .then((result) => {
           setValue((prev) => [
             ...prev,
             {
+              bill_image: fileName,
+              bill_amount: amount,
+              check_in: fromTime,
+              check_out: toTime,
+              contract_id: props.completedAssistance.id
 
             }
           ])
@@ -80,8 +91,22 @@ function PreviousSession(props) {
                 <p>Rate: ${props.completedAssistance.rate}</p>
               </Col>
               <Col md={4}>
-                <p>Check-in: <Datetime inputProps={{ required: true }} dateFormat={false} /></p>
-                <p>Check-out: <Datetime dateFormat={false} /></p>
+                <p>Check-in: <Datetime
+                  timeFormat="hh:mm A"
+                  value={fromTime}
+                  onChange={val => setFromTime(val)}
+                  inputProps={{ required: true }}
+                  dateFormat={false}
+                />
+                </p>
+                <p>Check-out: <Datetime
+                  timeFormat="hh:mm A"
+                  value={toTime}
+                  onChange={val => setToTime(val)}
+                  inputProps={{ required: true }}
+                  dateFormat={false}
+                />
+                </p>
               </Col>
             </Row>
           </Col>
@@ -93,8 +118,8 @@ function PreviousSession(props) {
               prefix="$"
               allowDecimals={true}
               decimalsLimit={2}
-              value={rate}
-              onChange={setRate}
+              value={amount}
+              onChange={setAmount}
             />
 
             <label className="btn btn-outline-primary" >

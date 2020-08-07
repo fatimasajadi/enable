@@ -5,8 +5,7 @@
   margin-bottom: 0.5em;
 }
 .pre-session-button {
-  display: flex;
-  flex-direction: column;
+  margin-top: 2em;
 }
 .pre-session-container > div {
   flex: 2;
@@ -23,19 +22,17 @@
   justify-content: left;
 }
 .description-rate-p {
-  display: flex;
-  flex-direction: column;
-  margin-top: 0;
+  margin-top: 2em;
 }
 .description-rate {
   display: flex;
   flex-direction: column;
 }
 .img-name {
-  display: flex;
-  flex-direction: row;
-  justify-content: left;
+  margin-top: 2em;
 }
 .name {
-  margin-left: 0.5em;
+}
+.description-rate-family {
+  margin-top: 2em;
 }
