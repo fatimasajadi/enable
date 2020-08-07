@@ -19,6 +19,8 @@ CREATE TABLE contracts (
   patient_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   from_date TIMESTAMP,
   to_date TIMESTAMP,
+  check_in TIME,
+  check_out TIME,
   description VARCHAR(255),
   rate INTEGER,
   type_of_pay VARCHAR(255),
@@ -28,5 +30,6 @@ CREATE TABLE contracts (
 CREATE TABLE purchases (
   id SERIAL PRIMARY KEY NOT NULL,
   contract_id INTEGER REFERENCES contracts(id) ON DELETE CASCADE,
+  bill_amount INTEGER,
   bill_image VARCHAR(255)
 );
