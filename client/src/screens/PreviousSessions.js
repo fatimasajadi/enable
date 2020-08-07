@@ -6,32 +6,31 @@ import PreviousSession from '../components/PreviousSession';
 
 function PreviousSessions() {
   const [completedAssistance, setCompletedAssistance] = useState(null);
-  const [patients, setPatients] = useState(null);
+  const [patients, setPatients] = useState();
 
   useEffect(() => {
     axios
       .get('/api/pending-requests')
       .then(result => {
         setPatients(result.data)
-        console.log("sag", result.data)
-      })
-      .catch(error => {
-        console.log(error);
-      });
+        axios
+          .get('/api/completed-assistance')
+          .then(result => {
+            setCompletedAssistance(result.data.map(item => ({
+              id: item.id,
+              description: item.description,
+              typeOfPay: item.type_of_pay,
+              rate: item.rate,
+              patientId: item.patient_id,
+              fromDate: moment(item.from_date),
+              toDate: moment(item.to_date),
+              status: item.status,
+            })))
 
-    axios
-      .get('/api/completed-assistance')
-      .then(result => {
-        console.log("ajab", result.data)
-        setCompletedAssistance(result.data.map(item => ({
-          description: item.description,
-          typeOfPay: item.type_of_pay,
-          rate: item.rate,
-          patientId: item.patient_id,
-          fromDate: moment(item.from_date),
-          toDate: moment(item.to_date),
-          status: item.status,
-        })))
+          })
+          .catch(error => {
+            console.log(error);
+          });
 
       })
       .catch(error => {

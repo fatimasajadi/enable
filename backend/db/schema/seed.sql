@@ -1,2 +1,3 @@
 INSERT INTO users (firstname, lastname, address, phonenumber, email, type, password) VALUES ('John', 'Doe', 'Test', '', 'worker@test.com', 'Support Worker', '$2b$10$xtP9NvL2bQGsgUbV8Tk/Du7tRpb3VdcEEGM0yt5VHT069vJ4X5lQK');
 INSERT INTO users (firstname, lastname, address, phonenumber, email, type, password) VALUES ('Foo', 'Bar', 'Test', '', 'family@test.com', 'Family', '$2b$10$xtP9NvL2bQGsgUbV8Tk/Du7tRpb3VdcEEGM0yt5VHT069vJ4X5lQK');
+INSERT INTO users (firstname, lastname, address, phonenumber, email, type, password) VALUES ('Fatima', 'Sajadi', 'Test', '', 'Fatima@test.com', 'Admin', '$2b$10$xtP9NvL2bQGsgUbV8Tk/Du7tRpb3VdcEEGM0yt5VHT069vJ4X5lQK');
