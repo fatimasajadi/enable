@@ -4,13 +4,14 @@ const router = express.Router();
 module.exports = db => {
 
   //Get request when worker clicks on Pending request
+  //api/pending-requests
   router.get('/', (req, res) => {
 
     let userId = req.session['user_id'];
     const query = {
 
-      text: 'SELECT contracts.*, users.firstName, users.lastName FROM contracts LEFT JOIN users ON users.id = contracts.patient_id where status = $1 and worker_id = $2;',
-      values: ["PENDING", userId]
+      text: 'SELECT contracts.*, users.firstName, users.lastName FROM contracts LEFT JOIN users ON users.id = contracts.patient_id where  worker_id = $1;',
+      values: [userId]
     };
 
     db.query(query)

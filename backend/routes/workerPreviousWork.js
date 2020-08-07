@@ -49,29 +49,32 @@ module.exports = db => {
   //To upload the expense of worker
   router.post('/', (req, res) => {
 
-    const {contract_id, check_in, check_out, bill_amount, bill_image} = req.body
+    const { contract_id, check_in, check_out, bill_amount, bill_image } = req.body
 
-    const query1 = {
+    const updateContractsQuery = {
       text: 'UPDATE contracts SET check_in = $1, check_out = $2 WHERE id = $3 RETURNING *;',
-      values: [check_in, check_out, contract_id]
+      values: [new Date(check_in), new Date(check_out), contract_id]
     }
 
-    db.query(query1)
-      .then(result => res.json(result[0]))
+    const insertPurchaseQuery = {
+      text: 'INSERT INTO purchases (contract_id, bill_amount, bill_image) VALUES ($1, $2, $3) RETURNING *;',
+      values: [contract_id, bill_amount, bill_image]
+    }
+
+    db.query(updateContractsQuery)
+      .then(constractsUpdateResult => {
+        console.log(constractsUpdateResult)
+
+        return db.query(insertPurchaseQuery)
+          .then(purchaseInsertResult => {
+            res.json(purchaseInsertResult[0])
+          });
+      })
       .catch(err => {
         console.error(err);
         res.status(500).send(err)
       })
-    const query = {
-      text: 'INSERT INTO purchases (contract_id, bill_amount, bill_image) VALUES ($1, $2, $3) RETURNING *;',
-      values: [contract_id, bill_amount, bill_image]
-    }
-    db.query(query)
-      .then(result => res.json(result[0]))
-      .catch(err => {
-        console.error(err);
-        res.status(500).send(err)  
-      });
+
   });
 
   return router;

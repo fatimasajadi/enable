@@ -2,22 +2,23 @@ import React, { useState } from 'react';
 import './PreviousSession.css';
 import ProfilePicture from '../images/profilePicture.PNG'
 import { Button, Row, Col, Container } from 'reactstrap';
-import Datetime from 'react-datetime';
+// import Datetime from 'react-datetime';
 import moment from 'moment';
 import { Rating } from './Rating';
 import axios from 'axios';
 import CurrencyInput from 'react-currency-input-field';
+import DatePicker from 'react-datetime';
 
 function PreviousSession(props) {
   const [rating, setRating] = useState(3);
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState([]);
   const [amount, setAmount] = useState('');
-  const [fromTime, setFromTime] = useState();
-  const [toTime, setToTime] = useState();
-  // const patient = props.patients.find(item => item.patient_id === props.completedAssistance.patientId);
-
+  const [fromTime, setFromTime] = useState(moment());
+  const [toTime, setToTime] = useState(moment());
   const [file, setFile] = useState();
   const [fileName, setFilename] = useState('Choose file');
+  const patient = props.patients.find(item => item.patient_id === props.completedAssistance.patientId);
+
 
   function onFileChange(e) {
     setFile(e.target.files[0]);
@@ -37,6 +38,7 @@ function PreviousSession(props) {
       });
 
       const { fileName } = res.data;
+      console.log(props.completedAssistance)
 
       axios
         .post('/api/previous-sessions', {
@@ -46,21 +48,22 @@ function PreviousSession(props) {
           check_out: toTime,
           contract_id: props.completedAssistance.id
 
-
-
         })
         .then((result) => {
+          console.log("this is result", result.data)
           setValue((prev) => [
             ...prev,
             {
-              bill_image: fileName,
-              bill_amount: amount,
-              check_in: fromTime,
-              check_out: toTime,
-              contract_id: props.completedAssistance.id
+              //check this object later
+              fileName: result.data.bill_image,
+              amount: result.data.bill_amount,
+              fromTime: fromTime,
+              toTime: toTime,
+              contract_id: result.data.contract_id
 
             }
           ])
+          console.log("val", value)
         })
         .catch(error => {
           console.log('post', error);
@@ -82,7 +85,7 @@ function PreviousSession(props) {
           <Col md={12}>
             <Row >
               <Col md={4} className='profile-container'>
-                {/* <img src={ProfilePicture} alt='pending-req-pic' className='previous-session-profile-picture'></img> {patient.patient.firstname}{patient.patient.lastname} */}
+                <img src={ProfilePicture} alt='pending-req-pic' className='previous-session-profile-picture'></img> {patient.patient.firstname}{patient.patient.lastname}
                 <Rating value={rating} onChange={setRating} />
               </Col>
 
@@ -91,20 +94,20 @@ function PreviousSession(props) {
                 <p>Rate: ${props.completedAssistance.rate}</p>
               </Col>
               <Col md={4}>
-                <p>Check-in: <Datetime
+                <p>Check-in: <DatePicker
                   timeFormat="hh:mm A"
                   value={fromTime}
                   onChange={val => setFromTime(val)}
                   inputProps={{ required: true }}
-                  dateFormat={false}
+                  dateFormat={true}
                 />
                 </p>
-                <p>Check-out: <Datetime
+                <p>Check-out: <DatePicker
                   timeFormat="hh:mm A"
                   value={toTime}
                   onChange={val => setToTime(val)}
                   inputProps={{ required: true }}
-                  dateFormat={false}
+                  dateFormat={true}
                 />
                 </p>
               </Col>
