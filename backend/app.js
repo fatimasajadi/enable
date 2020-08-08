@@ -20,6 +20,8 @@ const statusUpdate = require('./routes/statusUpdate');
 const familyPreviousRequest = require('./routes/familyPreviousRequest');
 const completedRequest = require('./routes/completedRequest');
 const completedAssistanceWorker = require('./routes/completedAssistanceWorker');
+const listAllFamily = require('./routes/listAllFamily');
+const admin = require('./routes/admin')
 
 
 const uploadsPath = './statics/uploads';
@@ -55,6 +57,8 @@ app.use('/api/status', statusUpdate(db));
 app.use('/api/previous-assistance', familyPreviousRequest(db));
 app.use('/api/completed-requests', completedRequest(db));
 app.use('/api/completed-assistance', completedAssistanceWorker(db))
+app.use('/api/family', listAllFamily(db));
+app.use('/api/admin', admin(db));
 
 
 // upload bill image
