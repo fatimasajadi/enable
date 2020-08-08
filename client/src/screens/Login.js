@@ -24,8 +24,8 @@ function Login() {
 
         if (result.data.type === 'Admin') {
           history.replace('/admin', state)
-        } else if (result.data.type === '') {
-          history.replace('/worker-dashboard', state)
+        } else if (result.data.type === 'Family') {
+          history.replace('/family-dashboard', state)
         } else {
           history.replace('/worker-dashboard', state)
         }
