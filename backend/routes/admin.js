@@ -5,16 +5,16 @@ const router = express.Router();
 module.exports = db => {
   router.get('/', (req, res) => {
 
-    let userId = req.session['user_id'];
-    const {from_date, to_date, patient_id} = req.body;
+    const { from_date, to_date, patient_id } = req.query;
     const query = {
-      text: `select firstname, lastname, c.from_date, c.to_date, rate, c.type_of_pay, p.bill_amount, p.bill_image
-      from users u, contracts c, purchases p
-      WHERE u.id = c.patient_id
-      AND c.id = p.contract_id
-      AND c.from_date >= $1 AND c.to_date <= $2
-      AND c.patient_id = $3;`,
-      values: [from_date, to_date, patient_id]
+      text: `SELECT c.id, firstname, lastname, c.from_date, c.to_date, rate, c.type_of_pay, p.bill_amount, p.bill_image
+      FROM contracts c
+      LEFT JOIN users u
+      ON u.id = c.patient_id
+      LEFT JOIN purchases p
+      ON c.id = p.contract_id
+      WHERE c.patient_id = $1 AND c.from_date >= $2 AND c.to_date <= $3`,
+      values: [patient_id, new Date(from_date), new Date(to_date)]
     };
     db.query(query)
       .then(result => res.json(result))
