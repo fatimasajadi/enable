@@ -79,7 +79,7 @@ const Invoice = (props) => {
             <View style={styles.header}>
 
               <View style={styles.recipient}>
-                <Text>{props.contracts[0].firstname}</Text>
+                <Text>{props.contracts[0].firstname}  {props.contracts[0].lastname}</Text>
                 <Text>{props.contracts[0].address}</Text>
 
               </View>
