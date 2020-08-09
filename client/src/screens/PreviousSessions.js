@@ -3,6 +3,7 @@ import './PreviousSessions.css';
 import axios from 'axios';
 import moment from 'moment';
 import PreviousSession from '../components/PreviousSession';
+import { Container } from 'reactstrap';
 
 function PreviousSessions() {
   const [completedAssistance, setCompletedAssistance] = useState(null);
@@ -25,8 +26,10 @@ function PreviousSessions() {
               fromDate: moment(item.from_date),
               toDate: moment(item.to_date),
               status: item.status,
-              check_in: item.check_in,
-              check_out: item.check_out
+              check_in: item.check_in && moment(item.check_in),
+              check_out: item.check_out && moment(item.check_out),
+              billImage: item.bill_image,
+              billAmount: item.bill_amount,
             })))
 
           })
@@ -42,11 +45,11 @@ function PreviousSessions() {
   }, [])
 
   return (
-    <>
+    <Container>
       {completedAssistance &&
         completedAssistance.map(item => <PreviousSession key={item.id} completedAssistance={item} patients={patients} />)
       }
-    </>
+    </Container>
   );
 }
 

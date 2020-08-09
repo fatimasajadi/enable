@@ -1,26 +1,27 @@
 import React, { useState } from 'react';
 import './PreviousSession.css';
 import ProfilePicture from '../images/profilePicture.PNG'
-import { Button, Row, Col, Container } from 'reactstrap';
+import { Button, Row, Col, Container, Collapse, Label, FormGroup } from 'reactstrap';
 import moment from 'moment';
 import { Rating } from './Rating';
 import axios from 'axios';
 import CurrencyInput from 'react-currency-input-field';
 import DatePicker from 'react-datetime';
 import { Alert } from 'reactstrap';
+import { download } from '../utils/download';
 
 function PreviousSession(props) {
   const [rating, setRating] = useState(3);
   const [alert, setAlert] = useState(false);
-
-  const [value, setValue] = useState([]);
-  const [amount, setAmount] = useState('');
-  const [fromTime, setFromTime] = useState(moment());
-  const [toTime, setToTime] = useState(moment());
+  const [amount, setAmount] = useState(props.completedAssistance.billAmount);
+  const [fromTime, setFromTime] = useState(props.completedAssistance.check_in || moment());
+  const [toTime, setToTime] = useState(props.completedAssistance.check_out || moment());
   const [file, setFile] = useState();
   const [fileName, setFilename] = useState('Choose file');
   const patient = props.patients.find(item => item.patient_id === props.completedAssistance.patientId);
+  const [isOpen, setIsOpen] = useState(false);
 
+  const sessionCompleted = Boolean(props.completedAssistance.check_in) || alert;
 
   function onFileChange(e) {
     setFile(e.target.files[0]);
@@ -32,6 +33,11 @@ function PreviousSession(props) {
     const formData = new FormData();
     formData.append('file', file);
 
+    if (fromTime.isAfter(toTime)) {
+      alert('Start time cannot be after end time');
+      return;
+    }
+
     try {
       const res = await axios.post('/upload', formData, {
         headers: {
@@ -40,7 +46,6 @@ function PreviousSession(props) {
       });
 
       const { fileName } = res.data;
-      console.log(props.completedAssistance)
 
       axios
         .post('/api/previous-sessions', {
@@ -52,25 +57,10 @@ function PreviousSession(props) {
 
         })
         .then((result) => {
-          console.log("this is result", result.data)
-          setValue((prev) => [
-            ...prev,
-            {
-              //check this object later
-              fileName: result.data.bill_image,
-              amount: result.data.bill_amount,
-              fromTime: fromTime,
-              toTime: toTime,
-              contract_id: result.data.contract_id
-
-            }
-          ])
           setAlert(true);
-
         })
         .catch(error => {
           console.log('post', error);
-
         });
     } catch (err) {
       if (err.response.status === 500) {
@@ -81,74 +71,107 @@ function PreviousSession(props) {
     }
 
   }
-  console.log('props.completedAssistance', props.completedAssistance)
   return (
-    <Container>
-      <form onSubmit={onSubmit}>
-        <Row className='pre-session-container'>
-          <Col md={12}>
-            <Row >
-              {alert && <Col md={12}>
-                <Alert color="success">
-                  successfully submitted!
-     </Alert>
-              </Col>
-              }
-              <Col md={4} className='profile-container'>
-                <img src={ProfilePicture} alt='pending-req-pic' className='previous-session-profile-picture'></img> {patient.patient.firstname}{patient.patient.lastname}
-                <Rating value={rating} onChange={setRating} />
+    <Row className='pre-session-container p-3'>
+      {alert && <Col md={12}>
+        <Alert color="success">
+          successfully submitted!
+                </Alert>
+      </Col>
+      }
+      <Col md={2}>
+        <img src={ProfilePicture} alt='pending-req-pic' className='previous-session-profile-picture'></img> {patient.patient.firstname}{patient.patient.lastname}
+        <Rating value={rating} onChange={setRating} />
+      </Col>
+
+      <Col md={8}>
+        <p>Description: {props.completedAssistance.description}</p>
+        <p>Rate: ${props.completedAssistance.rate}</p>
+      </Col>
+
+
+      <Col sm={2} className="d-flex align-items-center justify-content-end">
+        <Button onClick={() => setIsOpen(prev => !prev)}>{isOpen ? 'Close' : sessionCompleted ? 'Show details' : 'End session'}</Button>
+      </Col>
+
+      <Col sm={12}>
+        <Collapse isOpen={isOpen}>
+          <form onSubmit={onSubmit}>
+            <Row>
+              <Col md={6}>
+
+                <FormGroup>
+                  <Label for="checkIn">Check-in</Label>
+                  <DatePicker
+                    id="checkIn"
+                    timeFormat="hh:mm A"
+                    value={fromTime}
+                    onChange={val => setFromTime(val)}
+                    inputProps={{ required: true }}
+                    dateFormat
+                    inputProps={{ disabled: sessionCompleted }}
+                  />
+                </FormGroup>
+
+                <FormGroup>
+                  <Label>Check-out</Label>
+                  <DatePicker
+                    timeFormat="hh:mm A"
+                    value={toTime}
+                    onChange={val => setToTime(val)}
+                    inputProps={{ required: true }}
+                    dateFormat
+                    inputProps={{ disabled: sessionCompleted }}
+                  />
+                </FormGroup>
               </Col>
 
-              <Col md={4} className='profile-container'>
-                <p>Description: {props.completedAssistance.description}</p>
-                <p>Rate: ${props.completedAssistance.rate}</p>
+              <Col md={6}>
+
+                {
+                  !sessionCompleted || props.completedAssistance.billAmount ? (
+                    <FormGroup>
+                      <Label>Expense amount</Label>
+                      <CurrencyInput
+                        className="form-control"
+                        placeholder="$0.00"
+                        prefix="$"
+                        allowDecimals={true}
+                        decimalsLimit={2}
+                        value={amount}
+                        onChange={setAmount}
+                        disabled={sessionCompleted}
+                      />
+                    </FormGroup>
+                  ) : null
+                }
+                {
+                  !sessionCompleted && (
+                    <FormGroup>
+                      <Label>Upload bill image</Label>
+                      <label className="btn btn-outline-primary mt-2">
+                        {fileName}
+                        <input type='file' onChange={onFileChange} style={{ display: "none" }} />
+                      </label>
+                    </FormGroup>)
+                }
+                {sessionCompleted && props.completedAssistance.billImage ? (
+                  <img src={props.completedAssistance.billImage} style={{ width: 100 }} onClick={() => download(props.completedAssistance.billImage)} />
+                ) : null}
+
               </Col>
-              <Col md={4}>
-                <p>Check-in: <DatePicker
-                  timeFormat="hh:mm A"
-                  value={fromTime}
-                  onChange={val => setFromTime(val)}
-                  inputProps={{ required: true }}
-                  dateFormat={true}
-                />
-                </p>
-                <p>Check-out: <DatePicker
-                  timeFormat="hh:mm A"
-                  value={toTime}
-                  onChange={val => setToTime(val)}
-                  inputProps={{ required: true }}
-                  dateFormat={true}
-                />
-                </p>
+              <Col sm={12}>
+
+                {sessionCompleted ?
+                  <Button disabled color="success">Submitted</Button> :
+                  <Button color="success" >Submit</Button>
+                }
               </Col>
             </Row>
-          </Col>
-
-          <Col md={6} className='profile-container-upload'>
-            <CurrencyInput
-              className="form-control"
-              placeholder="$0.00"
-              prefix="$"
-              allowDecimals={true}
-              decimalsLimit={2}
-              value={amount}
-              onChange={setAmount}
-            />
-
-            <label className="btn btn-outline-primary" >
-              {fileName}
-              <input type='file' onChange={onFileChange} style={{ display: "none" }} />
-            </label>
-
-            {props.completedAssistance.check_in || alert ?
-              <Button disabled color="success">Submitted</Button> :
-              <Button color="success" >Submit</Button>
-            }
-
-          </Col>
-        </Row>
-      </form>
-    </Container>
+          </form>
+        </Collapse>
+      </Col>
+    </Row>
   );
 }
 

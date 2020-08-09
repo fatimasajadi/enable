@@ -24,7 +24,7 @@ const listAllFamily = require('./routes/listAllFamily');
 const admin = require('./routes/admin')
 
 
-const uploadsPath = './statics/uploads';
+const uploadsPath = path.join(__dirname, 'statics', 'uploads');
 
 const app = express();
 
