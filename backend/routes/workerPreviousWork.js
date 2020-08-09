@@ -61,14 +61,23 @@ module.exports = db => {
       values: [contract_id, bill_amount, bill_image]
     }
 
+    let contractResult;
+    let purchaseResult;
+
     db.query(updateContractsQuery)
       .then(constractsUpdateResult => {
-        console.log(constractsUpdateResult)
+        contractResult = constractsUpdateResult[0];
 
-        return db.query(insertPurchaseQuery)
-          .then(purchaseInsertResult => {
-            res.json(purchaseInsertResult[0])
-          });
+        if (bill_amount && bill_image) {
+          return db.query(insertPurchaseQuery);
+        }
+      })
+      .then(purchaseInsertResult => {
+        purchaseResult = purchaseInsertResult && purchaseInsertResult[0];
+        res.json({
+          contract: contractResult,
+          purchase: purchaseResult
+        });
       })
       .catch(err => {
         console.error(err);

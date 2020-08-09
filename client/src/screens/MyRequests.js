@@ -7,7 +7,7 @@ import DatePicker from 'react-datetime';
 import CurrencyInput from 'react-currency-input-field';
 import FamilyRequest from '../components/FamilyRequest';
 import Loading from '../components/Loading';
-
+import { Alert } from 'reactstrap';
 
 function MyRequests() {
   const [description, setDescription] = useState('');
@@ -19,14 +19,13 @@ function MyRequests() {
   const [isLoadingShown, setLoadingShown] = useState(false);
   const [workers, setWorkers] = useState([]);
   const [value, setValue] = useState([]);
-
+  const [alert, setAlert] = useState(false);
 
   useEffect(() => {
     axios
       .get('/api/workers')
       .then(result => {
         setWorkers(result.data);
-        console.log(workers)
         axios.get('/api/previous-assistance')
           .then(result => {
             setValue(result.data.map(item => ({
@@ -49,46 +48,57 @@ function MyRequests() {
       });
   }, []);
 
+  const onSubmit = event => {
+    event.preventDefault();
+    if (fromDate.isAfter(toDate)) {
+      setAlert(true);
+      return;
+    }
+
+    Promise.all([
+      axios
+        .post('/api/my-requests', {
+          description,
+          type_of_pay: typeOfPay,
+          rate: rate,
+          worker_id: workerId,
+          from_date: fromDate,
+          to_date: toDate,
+          status: 'PENDING',
+        })
+        .then((result) => {
+          setValue((prev) => [
+            ...prev,
+            {
+              description,
+              typeOfPay: typeOfPay,
+              rate: rate,
+              workerId: Number(workerId),
+              fromDate: fromDate,
+              toDate: toDate,
+              id: result.data.id,
+              status: 'PENDING'
+            }
+          ])
+        }),
+      new Promise(r => setTimeout(r, 2000)),
+    ])
+      .catch(error => {
+        console.log('post', error);
+
+      });
+  }
+
   return (
     <Container>
-
+      {alert && <Col className="loginContainer" md={12}>
+        <Alert color="danger">
+          Start time cannot be after end time!
+                </Alert>
+      </Col>
+      }
       <div className='family-request-container'>
-        <Form onSubmit={event => {
-          event.preventDefault();
-
-          Promise.all([
-            axios
-              .post('/api/my-requests', {
-                description,
-                type_of_pay: typeOfPay,
-                rate: rate,
-                worker_id: workerId,
-                from_date: fromDate,
-                to_date: toDate,
-                status: 'PENDING',
-              })
-              .then((result) => {
-                setValue((prev) => [
-                  ...prev,
-                  {
-                    description,
-                    typeOfPay: typeOfPay,
-                    rate: rate,
-                    workerId: Number(workerId),
-                    fromDate: fromDate,
-                    toDate: toDate,
-                    id: result.data.id,
-                    status: 'PENDING'
-                  }
-                ])
-              }),
-            new Promise(r => setTimeout(r, 2000)),
-          ])
-            .catch(error => {
-              console.log('post', error);
-
-            });
-        }}>
+        <Form onSubmit={(onSubmit)}>
           <FormGroup>
             <Label for="description">Description</Label>
             <Input required type="textarea" name="description" placeholder='Please provide a description for your request' value={description} onChange={(e) => setDescription(e.target.value)} />
@@ -123,7 +133,6 @@ function MyRequests() {
                   value={toDate}
                   onChange={val => setToDate(val)}
                 />
-
               </FormGroup>
             </Col>
           </Row>

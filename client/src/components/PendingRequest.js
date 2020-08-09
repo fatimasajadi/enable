@@ -1,11 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import './PendingRequest.css';
-import moment from 'moment';
 import ProfilePicture from '../images/profilePicture.PNG'
-import { Button } from 'reactstrap';
 import { AuthContext } from '../components/AuthProvider';
 import { Rating } from './Rating';
 import axios from 'axios';
+import { Button, Row, Col, Container } from 'reactstrap';
 
 function PendingRequest() {
 
@@ -72,22 +71,23 @@ function PendingRequest() {
         console.log(error);
       });
   }
+
   return (
-    <>
+    <Container>
       {
         contracts && contracts.map(contract => (
-          <div className='request-container' key={contract.id}>
-            <div className='profile-pic-rating'>
+          <Row className="request-container p-3" key={contract.id}>
+            <Col sm={2} className='profile-pic-rating'>
               <img src={ProfilePicture} alt='pending-req-pic' className='pending-req-pic'></img> {contract.patient.firstname} {contract.patient.lastname}
               <Rating value={rating} onChange={setRating} />
-            </div>
+            </Col>
 
-            <div className='description-rate'>
+            <Col sm={8}>
               <p>Description: {contract.description}</p>
               <p>Rate: ${contract.rate}</p>
-            </div>
+            </Col>
 
-            <div className='pending-req-button'>
+            <Col sm={2} className="d-flex align-items-center justify-content-end">
               {
                 contract.status === 'PENDING' && <>
                   <Button color="success" onClick={() => onAccept(contract.id)}>Accept</Button>
@@ -101,11 +101,11 @@ function PendingRequest() {
               {
                 contract.status === 'REJECTED' && <Button disabled color="danger" >Rejected</Button>
               }
-            </div>
-          </div>
+            </Col>
+          </Row>
         ))
       }
-    </>
+    </Container>
   );
 }
 

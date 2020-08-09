@@ -7,12 +7,6 @@
 .pre-session-button {
   margin-top: 2em;
 }
-.pre-session-container > div {
-  flex: 2;
-}
-.pre-session-container > div:last-child {
-  flex: 1;
-}
 .star {
   color: #fdcb6e;
 }
