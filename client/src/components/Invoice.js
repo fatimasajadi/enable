@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';
 import Logo from '../images/logo.png';
+import moment from 'moment';
 // Create styles
 const styles = StyleSheet.create({
   page: {
@@ -45,7 +46,27 @@ const styles = StyleSheet.create({
 });
 
 // Create Document Component
-const Invoice = () => {
+const Invoice = (props) => {
+  const computedContracts = useMemo(() => {
+    return props.contracts
+      .map(item => {
+        const start = moment(item.check_in);
+        const end = moment(item.check_out);
+        const durationInHours = moment.duration(Math.abs(end.diff(start))).as('hours');
+        return (
+          {
+            id: item.id,
+            name: `${item.firstname} ${item.lastname}`,
+            start: start.format('MMM Do HH:mm'),
+            end: end.format('MMM Do HH:mm'),
+            rate: item.rate,
+            total: item.rate * durationInHours
+          })
+      })
+  }, [props.contracts]);
+
+  const total = computedContracts.reduce((a, b) => a + b.total, 0);
+
   return (
     <PDFViewer height={1200} width={1000}>
       <Document>
@@ -58,53 +79,44 @@ const Invoice = () => {
             <View style={styles.header}>
 
               <View style={styles.recipient}>
-                <Text>John Smith</Text>
-                <Text>46 Eric</Text>
-                <Text>St. John's, NL, A1E 4K4</Text>
+                <Text>{props.contracts[0].firstname}</Text>
+                <Text>{props.contracts[0].address}</Text>
+
               </View>
 
               <View style={styles.rightTop}>
                 <Text>From:</Text>
-                <Text>April 17, 2020</Text>
+                <Text>{props.fromDate.format('ddd Do of MMM, LT')}</Text>
                 <Text>To:</Text>
-                <Text>August 27, 2020</Text>
+                <Text>{props.toDate.format('ddd Do of MMM, LT')}</Text>
               </View>
             </View>
             <View style={styles.table}>
               <View style={[styles.tableHeaderRow, styles.tableRow]}>
-                <Text style={{ color: 'white', flexBasis: '16%' }}>Number</Text>
-                <Text style={{ color: 'white', flexBasis: '64%' }}>Name</Text>
-                <Text style={{ color: 'white', flexBasis: '20%' }}>Amount</Text>
+                <Text style={{ color: 'white', flexBasis: '5%' }}>#</Text>
+                <Text style={{ color: 'white', flexBasis: '25%' }}>Worker Name</Text>
+                <Text style={{ color: 'white', flexBasis: '25%' }}>From</Text>
+                <Text style={{ color: 'white', flexBasis: '25%' }}>To</Text>
+                <Text style={{ color: 'white', flexBasis: '10%' }}>Rate</Text>
+                <Text style={{ color: 'white', flexBasis: '10%' }}>Total</Text>
               </View>
-              {[
-                {
-                  id: 1,
-                  name: 'Akbar',
-                  amount: 20
-                },
-                {
-                  id: 1,
-                  name: 'Asqar',
-                  amount: 20
-                },
-                {
-                  id: 1,
-                  name: 'Sadat',
-                  amount: 20
-                }
-              ].map(item => {
-                return (
-                  <View style={styles.tableRow}>
-                    <Text style={{ flexBasis: '16%' }}>{item.id}</Text>
-                    <Text style={{ flexBasis: '64%' }}>{item.name}</Text>
-                    <Text style={{ flexBasis: '20%' }}>{item.amount}</Text>
-                  </View>)
-              })}
+              {computedContracts
+                .map(item => {
+                  return (
+                    <View style={styles.tableRow}>
+                      <Text style={{ flexBasis: '5%' }}>{item.id}</Text>
+                      <Text style={{ flexBasis: '25%' }}>{item.name}</Text>
+                      <Text style={{ flexBasis: '25%' }}>{item.start}</Text>
+                      <Text style={{ flexBasis: '25%' }}>{item.end}</Text>
+                      <Text style={{ flexBasis: '10%' }}>${item.rate}</Text>
+                      <Text style={{ flexBasis: '10%' }}>${item.total}</Text>
+                    </View>)
+                })}
 
               <View style={[styles.tableRow, { border: 'none' }]}>
                 <Text style={{ flex: 1 }} />
                 <Text style={{ paddingRight: 10, paddingVertical: 10, borderTop: 2 }}>Total</Text>
-                <Text style={{ flexBasis: '20%', borderTop: 2, paddingVertical: 10 }}>{102}</Text>
+                <Text style={{ flexBasis: '20%', borderTop: 2, paddingVertical: 10 }}>${total}</Text>
               </View>
             </View>
           </View>

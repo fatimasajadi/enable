@@ -5,6 +5,7 @@ import moment from 'moment';
 import './MyRequests.css';
 import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import Datetime from 'react-datetime';
+import Invoice from '../components/Invoice';
 
 
 const Admin = (props) => {
@@ -12,7 +13,8 @@ const Admin = (props) => {
   const [toDate, setToDate] = useState(moment());
   const [families, setFamilies] = useState(null);
   const [patientId, setPatientId] = useState('');
-  const [contracts, setContracts] = useState([])
+  const [contracts, setContracts] = useState([]);
+  const [invoice, setInvoice] = useState(false);
 
   useEffect(() => {
     axios
@@ -33,6 +35,7 @@ const Admin = (props) => {
       .then((result) => {
         setContracts(result.data)
         console.log("contracts", result.data)
+        setInvoice(true);
       })
   }
 
@@ -81,6 +84,7 @@ const Admin = (props) => {
 
         <Button color="primary" className="submit-request-button" >Query</Button>
       </Form>
+      {invoice && <Invoice contracts={contracts} fromDate={fromDate} toDate={toDate} />}
     </div>
   );
 }
