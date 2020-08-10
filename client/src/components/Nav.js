@@ -53,11 +53,11 @@ function Nav() {
 
         <div className='button'>
 
-          <Link className="navLink" to="/">Home</Link>
+          {/* <Link className="navLink" to="/">Home</Link>
           <Link className="navLink">Our Team</Link>
           <Link className="navLink">About us </Link>
           <Link className="navLink">FAQ</Link>
-          <Link className="navLink">Contact</Link>
+          <Link className="navLink">Contact</Link> */}
           <p className="navWelcome">  {user && `Welcome ${user.firstname}!`}</p>
           {
             !user && (
