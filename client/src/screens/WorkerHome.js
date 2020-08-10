@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import {
-  Card, CardHeader, CardBody, Col
+  Card, CardHeader, CardBody, Col, Row, Container
 } from 'reactstrap';
 import './WorkerHome.css';
 import ProfilePicture from '../images/profilePicture.PNG';
@@ -20,15 +20,15 @@ function WorkerHome() {
   }, []);
 
   return (
-    <>
-
-
-      <div className="container worker-container">
-        {
-          flashMessage && <Alert color="success">
-            {flashMessage}
-          </Alert>
-        }
+    <Container className="pt-5">
+      <Row>
+        <Col md={12}>
+          {
+            flashMessage && <Alert color="success">
+              {flashMessage}
+            </Alert>
+          }
+        </Col>
         <Col md={6}>
           <Card>
             <CardHeader>Profile Information</CardHeader>
@@ -65,8 +65,8 @@ function WorkerHome() {
             </CardBody>
           </Card>
         </Col>
-      </div>
-    </>
+      </Row>
+    </Container>
   );
 }
 
