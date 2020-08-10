@@ -3,9 +3,10 @@ const router = express.Router();
 
 module.exports = db => {
 
-  let contractId = req.body
 
   router.post('/', (req, res) => {
+    let contractId = req.body
+
     const query = {
       text: 'DELETE FROM contracts WHERE id = $1',
       values: [contractId]
