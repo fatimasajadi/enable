@@ -24,6 +24,8 @@ CREATE TABLE contracts (
   description VARCHAR(255),
   rate INTEGER,
   type_of_pay VARCHAR(255),
+  rating INTEGER,
+  comments TEXT,
   status TEXT
 );
 
