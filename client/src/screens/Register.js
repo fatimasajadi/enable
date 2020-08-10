@@ -4,6 +4,7 @@ import axios from 'axios';
 import './Register.css';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { AuthContext } from '../components/AuthProvider';
+import { Alert } from 'reactstrap';
 
 function Register() {
   const auth = useContext(AuthContext);
@@ -16,6 +17,7 @@ function Register() {
   const [address, setAddress] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [type, setType] = useState('');
+  const [danger, setDanger] = useState(false);
 
 
   function submit() {
@@ -37,6 +39,7 @@ function Register() {
       })
       .catch(error => {
         console.log(error);
+        setDanger(true);
       });
 
 
@@ -45,8 +48,11 @@ function Register() {
 
   return (
     <div className="registerContainer">
-
-
+      {danger &&
+        <Alert color="danger">
+          User already exists!
+     </Alert>
+      }
       <Form>
         <FormGroup>
           <Label for="firstName">First Name</Label>
