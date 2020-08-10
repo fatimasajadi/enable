@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import './Register.css';
@@ -17,10 +17,24 @@ function Register() {
   const [address, setAddress] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [type, setType] = useState('');
-  const [danger, setDanger] = useState(false);
+  const [alert, setAlert] = useState(null);
 
+  useEffect(() => {
+    if (!alert) {
+      return;
+    }
+    document.querySelector('html').scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, [alert]);
 
   function submit() {
+    if (password !== confirmPassword) {
+      setAlert("Password and confirm password must match!");
+      return;
+    }
+
     axios
       .post('/api/register', { firstName, lastName, email, password, address, phoneNumber, type })
       .then(result => {
@@ -39,20 +53,18 @@ function Register() {
       })
       .catch(error => {
         console.log(error);
-        setDanger(true);
+        setAlert('User already exists!');
       });
-
-
   }
-
 
   return (
     <div className="registerContainer">
-      {danger &&
+      {alert &&
         <Alert color="danger">
-          User already exists!
-     </Alert>
+          {alert}
+        </Alert>
       }
+
       <Form>
         <FormGroup>
           <Label for="firstName">First Name</Label>
