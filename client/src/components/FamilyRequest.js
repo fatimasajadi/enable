@@ -4,11 +4,23 @@ import { Button, ButtonGroup, ButtonDropdown, DropdownToggle, DropdownItem, Drop
 import ProfilePicture from '../images/profilePicture.PNG'
 import { Rating } from './Rating';
 import { FormGroup, Row, Col } from 'reactstrap';
+import axios from 'axios';
 
 function FamilyRequest(props) {
   const [rating, setRating] = useState(4);
   const worker = props.workers.find(item => item.id === props.value.workerId);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  function onDelete() {
+    axios.post('/api/delete', {
+      contractId: props.value.id
+
+    })
+    console.log(props.value.id)
+  }
+
+
+
 
   return (
     <Col md={12}>
@@ -46,7 +58,7 @@ function FamilyRequest(props) {
                 <ButtonDropdown isOpen={isDropdownOpen} toggle={() => { setIsDropdownOpen(prev => !prev) }}>
                   <DropdownToggle caret />
                   <DropdownMenu>
-                    <DropdownItem>Delete</DropdownItem>
+                    <DropdownItem onClick={onDelete}>Delete</DropdownItem>
                   </DropdownMenu>
                 </ButtonDropdown>
               </ButtonGroup>
