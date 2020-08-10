@@ -36,6 +36,7 @@ function MyRequests() {
               fromDate: moment(item.from_date),
               toDate: moment(item.to_date),
               status: item.status,
+              id: item.id,
             })))
           })
 

@@ -5,7 +5,7 @@ module.exports = db => {
 
 
   router.post('/', (req, res) => {
-    let contractId = req.body
+    const { contractId } = req.body
 
     const query = {
       text: 'DELETE FROM contracts WHERE id = $1',
