@@ -21,7 +21,8 @@ const familyPreviousRequest = require('./routes/familyPreviousRequest');
 const completedRequest = require('./routes/completedRequest');
 const completedAssistanceWorker = require('./routes/completedAssistanceWorker');
 const listAllFamily = require('./routes/listAllFamily');
-const admin = require('./routes/admin')
+const admin = require('./routes/admin');
+const deleteRequest = require('./routes/deleteRequest');
 
 
 const uploadsPath = path.join(__dirname, 'statics', 'uploads');
@@ -59,7 +60,7 @@ app.use('/api/completed-requests', completedRequest(db));
 app.use('/api/completed-assistance', completedAssistanceWorker(db))
 app.use('/api/family', listAllFamily(db));
 app.use('/api/admin', admin(db));
-
+app.use('/api/delete', deleteRequest(db));
 
 // upload bill image
 app.use(fileUpload());
