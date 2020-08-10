@@ -19,7 +19,7 @@ function MyRequests() {
   const [isLoadingShown, setLoadingShown] = useState(false);
   const [workers, setWorkers] = useState([]);
   const [value, setValue] = useState([]);
-  const [alert, setAlert] = useState(false);
+  const [alert, setAlert] = useState(null);
 
   useEffect(() => {
     axios
@@ -51,9 +51,15 @@ function MyRequests() {
   const onSubmit = event => {
     event.preventDefault();
     if (fromDate.isAfter(toDate)) {
-      setAlert(true);
+      setAlert('Start time cannot be after end time!');
       return;
     }
+    if (!/^\d+(\.\d{1,2})?$/.test(rate)) {
+      setAlert('Rate is not valid');
+      return;
+    }
+
+    setAlert(null);
 
     Promise.all([
       axios
@@ -67,6 +73,7 @@ function MyRequests() {
           status: 'PENDING',
         })
         .then((result) => {
+          setLoadingShown(true);
           setValue((prev) => [
             ...prev,
             {
@@ -83,6 +90,9 @@ function MyRequests() {
         }),
       new Promise(r => setTimeout(r, 2000)),
     ])
+      .then(() => {
+        setLoadingShown(false)
+      })
       .catch(error => {
         console.log('post', error);
 
@@ -91,93 +101,95 @@ function MyRequests() {
 
   return (
     <Container>
-      {alert && <Col className="loginContainer" md={12}>
-        <Alert color="danger">
-          Start time cannot be after end time!
-                </Alert>
-      </Col>
-      }
-      <div className='family-request-container'>
-        <Form onSubmit={(onSubmit)}>
-          <FormGroup>
-            <Label for="description">Description</Label>
-            <Input required type="textarea" name="description" placeholder='Please provide a description for your request' value={description} onChange={(e) => setDescription(e.target.value)} />
-          </FormGroup>
+      <Row>
+        {alert && <Col className="from-date-greater-to-date" md={12}>
+          <Alert color="danger">
+            {alert}
+          </Alert>
+        </Col>
+        }
+        <Col sm={12} className='family-request-container p-4 mt-4'>
+          <Form onSubmit={(onSubmit)}>
+            <FormGroup>
+              <Label for="description">Description</Label>
+              <Input required type="textarea" name="description" placeholder='Please provide a description for your request' value={description} onChange={(e) => setDescription(e.target.value)} />
+            </FormGroup>
 
-          <Row form>
-            <Col md={6}>
-              <FormGroup>
-                <Label>From</Label>
+            <Row form>
+              <Col md={6}>
+                <FormGroup>
+                  <Label>From</Label>
 
-                <DatePicker
-                  inputProps={{
-                    style: { width: 250 }
-                  }}
-                  dateFormat="DD-MM-YYYY"
-                  timeFormat="hh:mm A"
-                  value={fromDate}
-                  onChange={val => setFromDate(val)}
-                />
-              </FormGroup>
-            </Col>
-            <Col md={6}>
-              <FormGroup>
-                <Label>To</Label>
+                  <DatePicker
+                    inputProps={{
+                      style: { width: 250 }
+                    }}
+                    dateFormat="DD-MM-YYYY"
+                    timeFormat="hh:mm A"
+                    value={fromDate}
+                    onChange={val => setFromDate(val)}
+                  />
+                </FormGroup>
+              </Col>
+              <Col md={6}>
+                <FormGroup>
+                  <Label>To</Label>
 
-                <DatePicker
-                  inputProps={{
-                    style: { width: 250 }
-                  }}
-                  dateFormat="DD-MM-YYYY"
-                  timeFormat="hh:mm A"
-                  value={toDate}
-                  onChange={val => setToDate(val)}
-                />
-              </FormGroup>
-            </Col>
-          </Row>
+                  <DatePicker
+                    inputProps={{
+                      style: { width: 250 }
+                    }}
+                    dateFormat="DD-MM-YYYY"
+                    timeFormat="hh:mm A"
+                    value={toDate}
+                    onChange={val => setToDate(val)}
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
 
-          <FormGroup>
-            <Label >Rate of Pay</Label>
-            <CurrencyInput
-              className="form-control"
-              placeholder="$0.00"
-              prefix="$"
-              allowDecimals={true}
-              decimalsLimit={2}
-              value={rate}
-              onChange={setRate}
-            />
-          </FormGroup>
+            <FormGroup>
+              <Label >Rate of Pay</Label>
+              <CurrencyInput
+                className="form-control"
+                placeholder="$0.00"
+                prefix="$"
+                allowDecimals={true}
+                decimalsLimit={2}
+                value={rate}
+                onChange={setRate}
+              />
+            </FormGroup>
 
-          <FormGroup>
-            <Label for="select">Type of Pay</Label>
-            <Input required type="select" name="select" value={typeOfPay} onChange={(e) => setTypeOfPay(e.target.value)} >
+            <FormGroup>
+              <Label for="select">Type of Pay</Label>
+              <Input required type="select" name="select" value={typeOfPay} onChange={(e) => setTypeOfPay(e.target.value)} >
 
-              <option value="">Select the type of pay</option>
-              <option value="one">option one</option>
-              <option value="two">option two</option>
-            </Input>
-          </FormGroup>
+                <option value="">Select the type of pay</option>
+                <option value="one">option one</option>
+                <option value="two">option two</option>
+              </Input>
+            </FormGroup>
 
-          <FormGroup>
-            <Label for="select">Support Worker</Label>
-            <Input required type="select" name="select" value={workerId} onChange={(e) => setWorkerId(e.target.value)} >
-              <option value="">Select a worker</option>
-              {workers && workers.map(item => <option value={item.id} key={item.id}>{item.firstname} {item.lastname}</option>)}
-            </Input>
-          </FormGroup>
+            <FormGroup>
+              <Label for="select">Support Worker</Label>
+              <Input required type="select" name="select" value={workerId} onChange={(e) => setWorkerId(e.target.value)} >
+                <option value="">Select a worker</option>
+                {workers && workers.map(item => <option value={item.id} key={item.id}>{item.firstname} {item.lastname}</option>)}
+              </Input>
+            </FormGroup>
 
-          <Button color="primary" className="submit-request-button" >Submit</Button>
-        </Form>
+            <Button color="primary" className="submit-request-button" >Submit</Button>
+          </Form>
 
-      </div>
+        </Col>
 
-      {isLoadingShown && <Loading />}
+        {isLoadingShown && <Loading />}
 
-      {
-        value.map(item => <FamilyRequest key={item.id} value={item} workers={workers} />)
-      }
+        {
+          value.map(item => <FamilyRequest key={item.id} value={item} workers={workers} />)
+        }
+      </Row>
     </Container>
   );
 }
