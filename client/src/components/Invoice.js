@@ -3,6 +3,8 @@ import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/render
 import { PDFViewer } from '@react-pdf/renderer';
 import Logo from '../images/logo.png';
 import moment from 'moment';
+
+
 // Create styles
 const styles = StyleSheet.create({
   page: {
@@ -46,13 +48,21 @@ const styles = StyleSheet.create({
 });
 
 // Create Document Component
+
 const Invoice = (props) => {
+
+
   const computedContracts = useMemo(() => {
     return props.contracts
       .map(item => {
         const start = moment(item.check_in);
         const end = moment(item.check_out);
         const durationInHours = moment.duration(Math.abs(end.diff(start))).as('hours');
+        const worker_id = item.worker_id;
+        const worker = props.workers.find(item => item.id === worker_id);
+        const worker_firstname = worker.firstname;
+        const worker_lastname = worker.lastname;
+        console.log("w", worker)
         return (
           {
             id: item.id,
@@ -60,7 +70,10 @@ const Invoice = (props) => {
             start: start.format('MMM Do HH:mm'),
             end: end.format('MMM Do HH:mm'),
             rate: item.rate,
-            total: item.rate * durationInHours
+            total: item.rate * durationInHours,
+            worker_id: worker_id,
+            worker_firstname: worker_firstname,
+            worker_lastname: worker_lastname,
           })
       })
   }, [props.contracts]);
@@ -105,7 +118,7 @@ const Invoice = (props) => {
                   return (
                     <View style={styles.tableRow}>
                       <Text style={{ flexBasis: '5%' }}>{item.id}</Text>
-                      <Text style={{ flexBasis: '25%' }}>{item.name}</Text>
+                      <Text style={{ flexBasis: '25%' }}>{item.worker_firstname} {item.worker_lastname}</Text>
                       <Text style={{ flexBasis: '25%' }}>{item.start}</Text>
                       <Text style={{ flexBasis: '25%' }}>{item.end}</Text>
                       <Text style={{ flexBasis: '10%' }}>${item.rate}</Text>
@@ -118,6 +131,11 @@ const Invoice = (props) => {
                 <Text style={{ paddingRight: 10, paddingVertical: 10, borderTop: 2 }}>Total</Text>
                 <Text style={{ flexBasis: '20%', borderTop: 2, paddingVertical: 10 }}>${total}</Text>
               </View>
+
+              <Image
+                style={styles.image}
+                src={Logo}
+              />
             </View>
           </View>
         </Page>

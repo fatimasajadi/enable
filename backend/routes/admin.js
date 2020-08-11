@@ -7,7 +7,7 @@ module.exports = db => {
 
     const { from_date, to_date, patient_id } = req.query;
     const query = {
-      text: `SELECT c.id, firstname, lastname, address, c.check_in, c.check_out, c.from_date, c.to_date, rate, c.type_of_pay, p.bill_amount, p.bill_image
+      text: `SELECT c.id, firstname, lastname,c.worker_id, address, c.check_in, c.check_out, c.from_date, c.to_date, rate, c.type_of_pay, p.bill_amount, p.bill_image
       FROM contracts c
       LEFT JOIN users u
       ON u.id = c.patient_id
