@@ -121,7 +121,7 @@ const Invoice = (props) => {
                       <Text style={{ flexBasis: '25%' }}>{item.worker_firstname} {item.worker_lastname}</Text>
                       <Text style={{ flexBasis: '25%' }}>{item.start}</Text>
                       <Text style={{ flexBasis: '25%' }}>{item.end}</Text>
-                      <Text style={{ flexBasis: '10%' }}>${item.rate}</Text>
+                      <Text style={{ flexBasis: '10%' }}>${item.rate.toFixed(2)}</Text>
                       <Text style={{ flexBasis: '10%' }}>${item.total.toFixed(2)}</Text>
                     </View>)
                 })}
