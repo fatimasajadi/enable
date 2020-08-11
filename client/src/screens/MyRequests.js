@@ -61,38 +61,34 @@ function MyRequests() {
     }
 
     setAlert(null);
+    setLoadingShown(true);
 
-    Promise.all([
-      axios
-        .post('/api/my-requests', {
-          description,
-          type_of_pay: typeOfPay,
-          rate: rate,
-          worker_id: workerId,
-          from_date: fromDate,
-          to_date: toDate,
-          status: 'PENDING',
-        })
-        .then((result) => {
-          setLoadingShown(true);
-          setValue((prev) => [
-            ...prev,
-            {
-              description,
-              typeOfPay: typeOfPay,
-              rate: rate,
-              workerId: Number(workerId),
-              fromDate: fromDate,
-              toDate: toDate,
-              id: result.data.id,
-              status: 'PENDING'
-            }
-          ])
-        }),
-      new Promise(r => setTimeout(r, 2000)),
-    ])
-      .then(() => {
+    axios
+      .post('/api/my-requests', {
+        description,
+        type_of_pay: typeOfPay,
+        rate: rate,
+        worker_id: workerId,
+        from_date: fromDate,
+        to_date: toDate,
+        status: 'PENDING',
+      })
+      .then((result) => {
         setLoadingShown(false)
+
+        setValue((prev) => [
+          {
+            description,
+            typeOfPay: typeOfPay,
+            rate: rate,
+            workerId: Number(workerId),
+            fromDate: fromDate,
+            toDate: toDate,
+            id: result.data.id,
+            status: 'PENDING'
+          },
+          ...prev,
+        ])
       })
       .catch(error => {
         console.log('post', error);
