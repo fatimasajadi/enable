@@ -122,14 +122,14 @@ const Invoice = (props) => {
                       <Text style={{ flexBasis: '25%' }}>{item.start}</Text>
                       <Text style={{ flexBasis: '25%' }}>{item.end}</Text>
                       <Text style={{ flexBasis: '10%' }}>${item.rate}</Text>
-                      <Text style={{ flexBasis: '10%' }}>${item.total}</Text>
+                      <Text style={{ flexBasis: '10%' }}>${item.total.toFixed(2)}</Text>
                     </View>)
                 })}
 
               <View style={[styles.tableRow, { border: 'none' }]}>
                 <Text style={{ flex: 1 }} />
                 <Text style={{ paddingRight: 10, paddingVertical: 10, borderTop: 2 }}>Total</Text>
-                <Text style={{ flexBasis: '20%', borderTop: 2, paddingVertical: 10 }}>${total}</Text>
+                <Text style={{ flexBasis: '20%', borderTop: 2, paddingVertical: 10 }}>${total.toFixed(2)}</Text>
               </View>
 
               <Image
