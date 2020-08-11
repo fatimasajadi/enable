@@ -8,20 +8,20 @@ import axios from 'axios';
 import CurrencyInput from 'react-currency-input-field';
 import DatePicker from 'react-datetime';
 import { Alert } from 'reactstrap';
-import { download } from '../utils/download';
+import { download, getFilePath } from '../utils/download';
 
 function PreviousSession(props) {
   const [rating, setRating] = useState(3);
-  const [alert, setAlert] = useState(false);
+  const [alert, setAlert] = useState(null);
   const [amount, setAmount] = useState(props.completedAssistance.billAmount);
-  const [fromTime, setFromTime] = useState(props.completedAssistance.check_in || moment());
-  const [toTime, setToTime] = useState(props.completedAssistance.check_out || moment());
+  const [fromTime, setFromTime] = useState(props.completedAssistance.check_in || props.completedAssistance.fromDate);
+  const [toTime, setToTime] = useState(props.completedAssistance.check_out || props.completedAssistance.toDate);
   const [file, setFile] = useState();
   const [fileName, setFilename] = useState('Choose file');
   const patient = props.patients.find(item => item.patient_id === props.completedAssistance.patientId);
   const [isOpen, setIsOpen] = useState(false);
 
-  const sessionCompleted = Boolean(props.completedAssistance.check_in) || alert;
+  const sessionCompleted = Boolean(props.completedAssistance.check_in) || (alert && alert.type === 'success');
 
   function onFileChange(e) {
     setFile(e.target.files[0]);
@@ -30,38 +30,66 @@ function PreviousSession(props) {
 
   async function onSubmit(e) {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('file', file);
 
     if (fromTime.isAfter(toTime)) {
-      alert('Start time cannot be after end time');
+      setAlert({
+        type: 'danger',
+        message: 'Start time cannot be after end time'
+      });
+      return;
+    }
+
+    if (file && !amount) {
+      setAlert({
+        type: 'danger',
+        message: 'Please enter the expense amount'
+      });
+      return;
+    }
+    if (!file && amount) {
+      setAlert({
+        type: 'danger',
+        message: 'Please upload the receipt image if you want to report an expense'
+      });
+      return;
+    }
+
+    if (file && !/^image\//.test(file.type)) {
+      setAlert({
+        type: 'danger',
+        message: 'You can only upload an image file (e.g. jpg or png)'
+      });
       return;
     }
 
     try {
-      const res = await axios.post('/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+      let fileName;
 
-      const { fileName } = res.data;
+      if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        const res = await axios.post('/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
 
-      axios
+        fileName = res.data.fileName;
+      }
+
+      const result = await axios
         .post('/api/previous-sessions', {
           bill_image: fileName,
           bill_amount: amount,
           check_in: fromTime,
           check_out: toTime,
           contract_id: props.completedAssistance.id
-
-        })
-        .then((result) => {
-          setAlert(true);
-        })
-        .catch(error => {
-          console.log('post', error);
         });
+      setAlert({
+        type: 'success',
+        message: "Successfully submitted!"
+      });
+
     } catch (err) {
       if (err.response.status === 500) {
         console.log('There was a problem with the server')
@@ -74,9 +102,9 @@ function PreviousSession(props) {
   return (
     <Row className='pre-session-container p-3'>
       {alert && <Col md={12}>
-        <Alert color="success">
-          successfully submitted!
-                </Alert>
+        <Alert color={alert.type}>
+          {alert.message}
+        </Alert>
       </Col>
       }
       <Col md={2}>
@@ -142,6 +170,9 @@ function PreviousSession(props) {
                         onChange={setAmount}
                         disabled={sessionCompleted}
                       />
+                      <small id="passwordHelpInline" class="text-muted">
+                        (optional) You can claim an expense
+                      </small>
                     </FormGroup>
                   ) : null
                 }
@@ -149,14 +180,14 @@ function PreviousSession(props) {
                   !sessionCompleted && (
                     <FormGroup>
                       <Label>Upload bill image</Label>
-                      <label className="btn btn-outline-primary mt-2">
+                      <label className="btn btn-block btn-outline-primary mt-2">
                         {fileName}
                         <input type='file' onChange={onFileChange} style={{ display: "none" }} />
                       </label>
                     </FormGroup>)
                 }
                 {sessionCompleted && props.completedAssistance.billImage ? (
-                  <img src={props.completedAssistance.billImage} style={{ width: 100 }} onClick={() => download(props.completedAssistance.billImage)} />
+                  <img src={getFilePath(props.completedAssistance.billImage)} className="uploadedImage" onClick={() => download(props.completedAssistance.billImage)} />
                 ) : null}
 
               </Col>
