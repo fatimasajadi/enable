@@ -11,7 +11,7 @@ module.exports = db => {
 
     const query = {
       text: 'INSERT INTO contracts (worker_id, patient_id, from_date, to_date, description, rate, type_of_pay, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-      values: [worker_id, userId, from_date, to_date, description, rate, type_of_pay, "PENDING"]
+      values: [worker_id, userId, new Date(from_date), new Date(to_date), description, rate, type_of_pay, "PENDING"]
     };
     db.query(query)
       .then(result => res.json(result[0]))
