@@ -12,6 +12,7 @@ const Admin = (props) => {
   const [fromDate, setFromDate] = useState(moment().subtract(30, 'days'));
   const [toDate, setToDate] = useState(moment());
   const [families, setFamilies] = useState(null);
+  const [workers, setWorkers] = useState(null);
   const [patientId, setPatientId] = useState('');
   const [contracts, setContracts] = useState([]);
   const [invoice, setInvoice] = useState(false);
@@ -21,7 +22,10 @@ const Admin = (props) => {
       .get('/api/family')
       .then(result => {
         setFamilies(result.data);
-        console.log("result", result.data)
+        axios.get('/api/workers')
+          .then(result => {
+            setWorkers(result.data);
+          })
       })
       .catch(error => {
         console.log(error);
@@ -84,7 +88,7 @@ const Admin = (props) => {
 
         <Button color="primary" className="submit-request-button" >Query</Button>
       </Form>
-      {invoice && <Invoice contracts={contracts} fromDate={fromDate} toDate={toDate} />}
+      {invoice && <Invoice contracts={contracts} workers={workers} fromDate={fromDate} toDate={toDate} />}
     </div>
   );
 }
