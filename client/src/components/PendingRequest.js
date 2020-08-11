@@ -5,7 +5,7 @@ import { AuthContext } from '../components/AuthProvider';
 import { Rating } from './Rating';
 import axios from 'axios';
 import { Button, Row, Col, Container } from 'reactstrap';
-
+import moment from 'moment'
 function PendingRequest() {
 
   const auth = useContext(AuthContext);
@@ -71,6 +71,7 @@ function PendingRequest() {
         console.log(error);
       });
   }
+  console.log("ho", contracts)
 
   return (
     <Container>
@@ -82,9 +83,13 @@ function PendingRequest() {
               <Rating value={rating} onChange={setRating} />
             </Col>
 
-            <Col sm={8}>
+            <Col sm={4}>
               <p>Description: {contract.description}</p>
               <p>Rate: ${contract.rate}</p>
+            </Col>
+            <Col sm={4}>
+              <p>From: {moment(contract.from_date).format('ddd Do of MMM, LT')}</p>
+              <p>To: {moment(contract.to_date).format('ddd Do of MMM, LT')}</p>
             </Col>
 
             <Col sm={2} className="d-flex align-items-center justify-content-end">
