@@ -97,7 +97,7 @@ function MyRequests() {
   }
 
   return (
-    <Container>
+    <Container className='myrequestContainer'>
       <Row>
         {alert && <Col className="from-date-greater-to-date" md={12}>
           <Alert color="danger">
