@@ -159,12 +159,12 @@ function MyRequests() {
             </FormGroup>
 
             <FormGroup>
-              <Label for="select">Type of Pay</Label>
+              <Label for="select">Type of hours</Label>
               <Input required type="select" name="select" value={typeOfPay} onChange={(e) => setTypeOfPay(e.target.value)} >
 
-                <option value="">Select the type of pay</option>
-                <option value="one">option one</option>
-                <option value="two">option two</option>
+                <option value="">Select the type of hours</option>
+                <option value="one">Community development</option>
+                <option value="two">Residential respite</option>
               </Input>
             </FormGroup>
 
