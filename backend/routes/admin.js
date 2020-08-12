@@ -15,7 +15,7 @@ module.exports = db => {
       ON w.id = c.worker_id
       LEFT JOIN purchases p
       ON c.id = p.contract_id
-      WHERE c.patient_id = $1 AND c.from_date >= $2 AND c.to_date <= $3
+      WHERE c.patient_id = $1 AND c.from_date >= $2 AND c.to_date <= $3 AND status='ACCEPTED'
       ORDER BY c.id ASC`,
       values: [patient_id, new Date(from_date), new Date(to_date)]
     };
