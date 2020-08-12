@@ -108,7 +108,7 @@ function PreviousSession(props) {
       </Col>
       }
       <Col md={2}>
-        <img src={ProfilePicture} alt='pending-req-pic' className='previous-session-profile-picture'></img> {patient.patient.firstname}{patient.patient.lastname}
+        <img src={ProfilePicture} alt='pending-req-pic' className='previous-session-profile-picture'></img> {patient.patient.firstname} {patient.patient.lastname}
         <Rating value={rating} onChange={setRating} />
       </Col>
 
@@ -118,7 +118,7 @@ function PreviousSession(props) {
       </Col>
       <Col md={4}>
         <p>Description: {props.completedAssistance.fromDate.format('ddd Do of MMM, LT')}</p>
-        <p>Rate: ${props.completedAssistance.toDate.format('ddd Do of MMM, LT')}</p>
+        <p>Rate: {props.completedAssistance.toDate.format('ddd Do of MMM, LT')}</p>
       </Col>
 
 
