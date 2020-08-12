@@ -8,6 +8,7 @@ import CurrencyInput from 'react-currency-input-field';
 import DatePicker from 'react-datetime';
 import { Alert } from 'reactstrap';
 import { download, getFilePath } from '../utils/download';
+import moment from 'moment';
 
 function PreviousSession(props) {
   const [rating, setRating] = useState(3);
@@ -111,14 +112,18 @@ function PreviousSession(props) {
         <Rating value={rating} onChange={setRating} />
       </Col>
 
-      <Col md={8}>
+      <Col md={4}>
         <p>Description: {props.completedAssistance.description}</p>
         <p>Rate: ${props.completedAssistance.rate}</p>
+      </Col>
+      <Col md={4}>
+        <p>Description: {props.completedAssistance.fromDate.format('ddd Do of MMM, LT')}</p>
+        <p>Rate: ${props.completedAssistance.toDate.format('ddd Do of MMM, LT')}</p>
       </Col>
 
 
       <Col sm={2} className="d-flex align-items-center justify-content-end">
-        <Button onClick={() => setIsOpen(prev => !prev)}>{isOpen ? 'Close' : sessionCompleted ? 'Show details' : 'End session'}</Button>
+        <Button color="success" onClick={() => setIsOpen(prev => !prev)}>{isOpen ? 'Close' : sessionCompleted ? 'Show details' : 'End session'}</Button>
       </Col>
 
       <Col sm={12}>
