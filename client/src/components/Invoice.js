@@ -3,19 +3,28 @@ import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/render
 import { PDFViewer } from '@react-pdf/renderer';
 import Logo from '../images/logo.png';
 import moment from 'moment';
-
+import { getFilePath } from '../utils/download';
 
 // Create styles
 const styles = StyleSheet.create({
   page: {
     flexDirection: 'row',
-    backgroundColor: '#E4E4E4',
+    backgroundColor: '#FFFFFF',
     fontSize: 14
+  },
+  billPage: {
+    backgroundColor: '#FFFFFF',
+    fontSize: 14,
+    padding: 40
   },
   image: {
     width: 190 * 0.6,
     height: 62 * 0.6,
     marginBottom: 30
+  },
+  billImage: {
+    marginTop: 20,
+    width: '100%',
   },
   section: {
     margin: 10,
@@ -50,8 +59,6 @@ const styles = StyleSheet.create({
 // Create Document Component
 
 const Invoice = (props) => {
-
-
   const computedContracts = useMemo(() => {
     return props.contracts
       .map(item => {
@@ -59,10 +66,7 @@ const Invoice = (props) => {
         const end = moment(item.check_out);
         const durationInHours = moment.duration(Math.abs(end.diff(start))).as('hours');
         const worker_id = item.worker_id;
-        const worker = props.workers.find(item => item.id === worker_id);
-        const worker_firstname = worker.firstname;
-        const worker_lastname = worker.lastname;
-        console.log("w", worker)
+
         return (
           {
             id: item.id,
@@ -70,18 +74,22 @@ const Invoice = (props) => {
             start: start.format('MMM Do HH:mm'),
             end: end.format('MMM Do HH:mm'),
             rate: item.rate,
-            total: item.rate * durationInHours,
+            total: item.rate * durationInHours + item.bill_amount,
             worker_id: worker_id,
-            worker_firstname: worker_firstname,
-            worker_lastname: worker_lastname,
+            worker: item.worker,
+            patient: item.patient
           })
       })
   }, [props.contracts]);
 
   const total = computedContracts.reduce((a, b) => a + b.total, 0);
 
+  if (props.contracts.length === 0) {
+    return <div>No results found</div>;
+  }
+
   return (
-    <PDFViewer height={1200} width={1000}>
+    <PDFViewer height={400} width={1000}>
       <Document>
         <Page size="Letter" style={styles.page}>
           <View style={styles.section}>
@@ -92,8 +100,8 @@ const Invoice = (props) => {
             <View style={styles.header}>
 
               <View style={styles.recipient}>
-                <Text>{props.contracts[0].firstname}  {props.contracts[0].lastname}</Text>
-                <Text>{props.contracts[0].address}</Text>
+                <Text>{props.contracts[0].patient.firstname}  {props.contracts[0].patient.lastname}</Text>
+                <Text>{props.contracts[0].patient.address}</Text>
 
               </View>
 
@@ -118,7 +126,7 @@ const Invoice = (props) => {
                   return (
                     <View style={styles.tableRow}>
                       <Text style={{ flexBasis: '5%' }}>{item.id}</Text>
-                      <Text style={{ flexBasis: '25%' }}>{item.worker_firstname} {item.worker_lastname}</Text>
+                      <Text style={{ flexBasis: '25%' }}>{item.worker.firstname} {item.worker.lastname}</Text>
                       <Text style={{ flexBasis: '25%' }}>{item.start}</Text>
                       <Text style={{ flexBasis: '25%' }}>{item.end}</Text>
                       <Text style={{ flexBasis: '10%' }}>${item.rate.toFixed(2)}</Text>
@@ -132,13 +140,24 @@ const Invoice = (props) => {
                 <Text style={{ flexBasis: '20%', borderTop: 2, paddingVertical: 10 }}>${total.toFixed(2)}</Text>
               </View>
 
-              <Image
-                style={styles.image}
-                src={Logo}
-              />
+
             </View>
           </View>
         </Page>
+        {
+          props.contracts.map((item) => (
+            <Page style={styles.billPage} size="Letter" key={item.id}>
+              <Text>Bill amount: ${item.bill_amount}</Text>
+              <Text>Contract #: {item.id}</Text>
+              <Image
+                style={styles.billImage}
+                src={getFilePath(item.bill_image)}
+              />
+            </Page>
+          )
+          )
+        }
+
       </Document>
     </PDFViewer >
   )
