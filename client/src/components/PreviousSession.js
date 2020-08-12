@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import './PreviousSession.css';
 import ProfilePicture from '../images/profilePicture.PNG'
-import { Button, Row, Col, Container, Collapse, Label, FormGroup } from 'reactstrap';
-import moment from 'moment';
+import { Button, Row, Col, Collapse, Label, FormGroup } from 'reactstrap';
 import { Rating } from './Rating';
 import axios from 'axios';
 import CurrencyInput from 'react-currency-input-field';
