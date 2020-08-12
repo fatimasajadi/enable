@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
   },
   billImage: {
     marginTop: 20,
-    width: '100%',
+    width: '80%',
+    length: '80%'
   },
   section: {
     margin: 10,
