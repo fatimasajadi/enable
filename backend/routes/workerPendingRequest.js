@@ -10,7 +10,7 @@ module.exports = db => {
     let userId = req.session['user_id'];
     const query = {
 
-      text: 'SELECT contracts.*, users.firstName, users.lastName FROM contracts LEFT JOIN users ON users.id = contracts.patient_id where  worker_id = $1;',
+      text: 'SELECT contracts.*, users.firstName, users.lastName FROM contracts LEFT JOIN users ON users.id = contracts.patient_id where  worker_id = $1 ORDER BY contracts.id DESC;',
       values: [userId]
     };
 

@@ -79,9 +79,9 @@ function Register() {
           <Input type="email" name="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
         </FormGroup>
         <FormGroup>
-          <Label for="select">Select</Label>
+          <Label for="select">Select Type of User</Label>
           <Input type="select" name="select" id="select" value={type} onChange={(e) => setType(e.target.value)} >
-            <option value="">select</option>
+            <option value="">Select type of user</option>
             <option value="Support Worker">Support Worker</option>
             <option value="Family">Family</option>
           </Input>
