@@ -8,7 +8,6 @@ import CurrencyInput from 'react-currency-input-field';
 import DatePicker from 'react-datetime';
 import { Alert } from 'reactstrap';
 import { download, getFilePath } from '../utils/download';
-import moment from 'moment';
 
 function PreviousSession(props) {
   const [rating, setRating] = useState(3);
