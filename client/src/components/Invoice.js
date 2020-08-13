@@ -147,6 +147,9 @@ const Invoice = (props) => {
         </Page>
         {
           props.contracts.map((item) => (
+
+            item.bill_image &&
+
             <Page style={styles.billPage} size="Letter" key={item.id}>
               <Text>Bill amount: ${item.bill_amount}</Text>
               <Text>Contract #: {item.id}</Text>
@@ -155,6 +158,8 @@ const Invoice = (props) => {
                 src={getFilePath(item.bill_image)}
               />
             </Page>
+
+
           )
           )
         }
