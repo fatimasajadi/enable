@@ -1,0 +1,24 @@
+{
+  "name": "enable",
+  "version": "1.0.0",
+  "description": "The project has 2 main folders:",
+  "main": "index.js",
+  "dependencies": {
+    "heroku": "^7.42.8",
+    "mkdirp": "^1.0.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fatimasajadi/enable.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fatimasajadi/enable/issues"
+  },
+  "homepage": "https://github.com/fatimasajadi/enable#readme"
+}
