@@ -16,9 +16,17 @@ To start both servers:
 
 ## Final Product
 
+Person with disability dashboard (Family dashboard)
+
 !["Person with disability dashboard (Family dashboard)"](family.gif)
+
+Support worker dashboard
+
 !["Support worker dashboard"](worker.gif)
-!["Admin dashboard"](worker.gif)
+
+Admin dashboard
+
+!["Admin dashboard"](admin.gif)
 
 ## Project Stack
 
