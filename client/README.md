@@ -1,8 +1,10 @@
-**[You can check out the project here]()**
+**[You can check out the project here](To be deployed on heroku soon!)**
 
 ## Final Product
 
-![]()
+!["Family Dashboard"](family.gif)
+!["Worker Dashboard"](worker.gif)
+!["Admin Dashboard"](admin.gif)
 
 ## Project Stack
 

@@ -1,3 +1,5 @@
+**[You can check out the project here]()**
+
 # Final Project Boilerplate
 
 The project has 2 main folders:
@@ -11,21 +13,29 @@ To start both servers:
 
 `npm start` in the client folder
 `npm run dev` in the backend folder
-**[You can check out the project here](https://xenodochial-bell-c0b4c5.netlify.app/)**
 
 ## Final Product
 
-![](family.gif)
+!["Person with disability dashboard (Family dashboard)"](family.gif)
+!["Support worker dashboard"](worker.gif)
+!["Admin dashboard"](worker.gif)
 
 ## Project Stack
 
-- React
-- TypeScript
+- React, React Router, Reactstrap
+- Node.js, PostgreSQL
 - CSS (grid, animation, variables, etc.)
 
 ## Project Features
 
--
+- Enable has 3 different dashboards, Family, worker, and Admin.
+- Based on the type of user, user will be shown a specific dashboard.
+- Family users have the ability to create an assiatnce request (Providing assistance description, hourly rate, type of pay, and the ability to choose the support worker of their choice).
+- On the other hand on the support worker dashboard, workers can receive the request and have the ability to either accept or reject the request. The family will be notified either way.
+- After a session has been done, worker is able to upload any bill images for reimbursement, also worker is able to clock in and clock out the session afterwards.
+- Family is able to write a review and provide ratings after each session
+- On admin dashboard, admin is able to select a time frame and choose a family name, to access the automatically generated invoice, which includes the bill image as well.
+- The invoice is downloadable so, admin can easily download the PDF and sends it to the family to make the payment.
 
 ## Available Scripts
 
