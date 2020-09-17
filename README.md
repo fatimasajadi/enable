@@ -2,17 +2,36 @@
 
 The project has 2 main folders:
 
- - client (React Front-End)
- - backend (Express Back-End)
+- client (React Front-End)
+- backend (Express Back-End)
 
- Run npm install in both folders to install the dependencies.
+Run npm install in both folders to install the dependencies.
 
- To start both servers:
+To start both servers:
 
- `npm start` in the client folder
- `npm run dev` in the backend folder
+`npm start` in the client folder
+`npm run dev` in the backend folder
+**[You can check out the project here](https://xenodochial-bell-c0b4c5.netlify.app/)**
 
- ## Back-End Setup
+## Final Product
+
+![](family.gif)
+
+## Project Stack
+
+- React
+- TypeScript
+- CSS (grid, animation, variables, etc.)
+
+## Project Features
+
+-
+
+## Available Scripts
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Back-End Setup
 
 - create a postgres database. At the terminal, type the following:
 
@@ -21,7 +40,6 @@ The project has 2 main folders:
   replace database_name with your database name and username with your own user.
 
 - create a `.env` file with your database settings. Look at .env.example for usage.
-
 
 - Modify the sql scripts under `db/schema/` to create the tables and seed the data.
 
@@ -34,6 +52,7 @@ The project has 2 main folders:
     "reset": "psql -U labber -d final_project < ./db/schema/create.sql && psql -U labber -d final_project < ./db/schema/seed.sql"
   },
 ```
+
 - replace `labber` with your own username and `final_project` with your database name
 
 - currently, the users route is setup with a get and a post as examples. Modify it according to your needs and/or create additional route files.
@@ -41,6 +60,4 @@ The project has 2 main folders:
 ## Client Setup
 
 - A custom hook in `hooks/useApplicationData.js` contains the state.
-- a `useEffect` with an axios request is adding the users in the state. Modify the initial state and the useEffect according to your needs. 
-
-
+- a `useEffect` with an axios request is adding the users in the state. Modify the initial state and the useEffect according to your needs.
